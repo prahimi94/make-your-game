@@ -32,6 +32,11 @@ class Player {
         this.position.y += this.velocity.y
         this.draw()
     }
+
+    updateXPosition() {
+        this.position.y += this.velocity.y
+        this.draw()
+    }
 }
 
 const player = new Player()
