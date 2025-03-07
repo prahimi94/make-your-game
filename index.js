@@ -5,6 +5,42 @@ const MOVEMENT_SPEED = 5;
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 400;
 
+// Add favicon
+function createFavicon() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
+    const ctx = canvas.getContext('2d');
+
+    // Draw black background
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, 32, 32);
+
+    // Draw "01" in white
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 16px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('01', 16, 16);
+
+    // Create favicon link element
+    const link = document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = canvas.toDataURL("image/x-icon");
+    
+    // Remove existing favicon if it exists
+    const existingFavicon = document.querySelector("link[rel='shortcut icon']");
+    if (existingFavicon) {
+        document.head.removeChild(existingFavicon);
+    }
+    
+    document.head.appendChild(link);
+}
+
+// Call createFavicon when the page loads
+createFavicon();
+
 class Player {
     constructor() {
         this.element = document.getElementById('player');
