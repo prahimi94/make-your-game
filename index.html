@@ -11,20 +11,21 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 100%;
+        overflow: hidden;
         background-color: #000;
         font-family: 'SuperMario256', sans-serif; /* Apply the font here */
     }
 
-    .mainGame{
-        /* width: 800px; */
+    /* .mainGame{
+        width: 800px;
         background-image: url('image/background.gif');
         background-size: contain;
         width: 100vw;
         height: 700px;
-        /* background-color: #88a4e5; */
-        /* border: 1px solid #fff; */
-    }
+        background-color: #88a4e5;
+        border: 1px solid #fff;
+    } */
     .logo{
         display: flex;
         justify-content: center;
@@ -40,7 +41,14 @@
             
             <div>play the Super Mario game online for free</div>
         </div>
-        <div id="mainGame" class="mainGame"></div>
+
+        <div id="game-container">
+            <div id="scrollBackground"></div>
+            <script src="./Background/scrollBackground.js"></script>
+            <link rel="stylesheet" href="./Background/style.css">
+        </div>
+
+        <!-- <div id="mainGame" class="mainGame"></div> -->
     </div>
     
 </body>

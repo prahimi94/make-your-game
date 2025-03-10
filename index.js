@@ -19,7 +19,7 @@ let enemyIndex = 0
 let player
 const platformImageWidth = 580
 const platformImageHeight = 50
-const mainGame = document.getElementById('mainGame')
+const mainGame = document.getElementById('game-container')
 const platformTop = mainGame.offsetHeight + mainGame.offsetTop - platformImageHeight
 
 class Platform {
