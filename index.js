@@ -74,8 +74,8 @@ class Enemy {
             }
         }
         this.movementDirection = 'right'
-        this.width = 20
-        this.height = 20
+        this.width = 50
+        this.height = 50
         this.velocity = {
             x: 1
         }
@@ -84,7 +84,9 @@ class Enemy {
         this.div = document.createElement('div')
         this.div.setAttribute("id", `enemy${index}`)
         this.div.setAttribute("class", `enemy`)
-        this.div.style.backgroundColor = "red"
+        // this.div.style.backgroundImage = `url(./mushroom.svg)`
+        this.div.style.backgroundImage = `url(./carnivorous-plant.png)`
+        this.div.style.backgroundSize = 'cover'
         this.div.style.position = "absolute"; // Ensure the div is positioned
         document.body.appendChild(this.div)
     }
@@ -141,12 +143,25 @@ const init = () => {
 
         // If the number of visible enemies is below the threshold, create new enemies
         if (visibleEnemies < 5) {
-            const x = Math.random() * window.innerWidth + scrollOffset
-            const endX = x + 200
-            const enemy = new Enemy(x, endX, enemyIndex++)
-            enemy.draw()
-            enemies.push(enemy)
+            const enemySpacing = window.innerWidth / 5; // Adjust the number of enemies per screen width
+            for (let i = 0; i < 5 - visibleEnemies; i++) {
+                const randomOffset = Math.round(Math.random()) * enemySpacing; // Add randomness to the enemy position
+                const x = scrollOffset + i * enemySpacing + randomOffset;
+                const endX = x + 200;
+                const enemy = new Enemy(x, endX, enemyIndex++);
+                enemy.draw();
+                enemies.push(enemy);
+            }
         }
+
+        // Ensure enemies do not move in parallel
+        enemies.forEach((enemy, index) => {
+            if (index % 2 === 0) {
+                enemy.velocity.x = 1;
+            } else {
+                enemy.velocity.x = 2;
+            }
+        });
     }, 2000)
 }
 
