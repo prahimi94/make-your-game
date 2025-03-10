@@ -18,18 +18,29 @@
 
     .mainGame{
         /* width: 800px; */
-        height: 600px;
-        background-color: #2f48ea;
-        border: 1px solid #fff;
+        background-image: url('image/background.gif');
+        background-size: contain;
+        width: 100vw;
+        height: 700px;
+        /* background-color: #88a4e5; */
+        /* border: 1px solid #fff; */
+    }
+    .logo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>
 <body>
     <div id="main">
-        <div class="site-description padding-15">
-            <a href="#"><img src="super-mario-logo.gif" alt="SuperMarioPlay logo" title="Play Super Mario online"></a>
-            <div class="sd-title">play the Super Mario game online for free</div>
+        <div class="padding-15">
+            <div class="logo">
+                <a href="#"><img src="image/super-mario-logo.gif" alt="SuperMarioPlay logo" title="Play Super Mario online"></a>
+            </div>
+            
+            <div>play the Super Mario game online for free</div>
         </div>
-        <div class="mainGame"></div>
+        <div id="mainGame" class="mainGame"></div>
     </div>
     
 </body>

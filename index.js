@@ -17,46 +17,38 @@ let scrollOffset = 0
 let enemies = []
 let enemyIndex = 0
 let player
- 
-class Player {
-    constructor(){
+const platformImageWidth = 580
+const platformImageHeight = 50
+const mainGame = document.getElementById('mainGame')
+const platformTop = mainGame.offsetHeight + mainGame.offsetTop - platformImageHeight
+
+class Platform {
+    constructor({x, y, width = platformImageWidth, height = platformImageHeight, type = 'ground'}){
         this.position = {
-            x: 20,
-            y: 20
+            x,
+            y
         }
-        this.width = 50
-        this.height = 50
-        this.velocity = {
-            x: 0,
-            y: 1
-        }
+        this.type = type
         
-        this.div = document.createElement('div')
-        this.div.setAttribute("id", "mainPlayer")
-        // this.div.style.backgroundColor = "red"
-        // div.playerDiv.backgroundImage = `url(${mario})`;
-        this.div.style.backgroundImage = `url(./mario.jpg)`
-        this.div.style.backgroundSize = 'cover'
-        this.div.style.position = "absolute"; // Ensure the div is positioned
-        document.body.appendChild(this.div)
+        this.width = width
+        this.height = height
     }
-
+    
     draw() {
-        this.div.style.left = this.position.x + "px";
-        this.div.style.top = this.position.y + "px";
-        this.div.style.width = this.width + "px";
-        this.div.style.height = this.height + "px";
-    }
-
-    updatePosition() {
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
-        if(this.position.y + this.height + this.velocity.y <= window.innerHeight){
-            this.velocity.y += gravity
-        } else{ 
-            this.velocity.y = 0
-        }
-        this.draw()
+        let platformDiv = document.createElement('div')
+        platformDiv.setAttribute("id", "platform")
+        platformDiv.style.position = "absolute"; 
+        platformDiv.style.left = this.position.x + "px";
+        platformDiv.style.top = this.position.y + "px";
+        platformDiv.style.width = this.width + "px";
+        platformDiv.style.height = this.height + "px";
+        // if (this.type == 'ground') {
+            platformDiv.style.backgroundImage = `url(image/bricks.png)`;
+        // } else {
+        //     platformDiv.style.backgroundImage = `url(image/platform.png)`;
+        // }
+        platformDiv.style.backgroundSize = 'contain';
+        document.body.appendChild(platformDiv)
     }
 }
 
@@ -84,8 +76,8 @@ class Enemy {
         this.div = document.createElement('div')
         this.div.setAttribute("id", `enemy${index}`)
         this.div.setAttribute("class", `enemy`)
-        // this.div.style.backgroundImage = `url(./mushroom.svg)`
-        this.div.style.backgroundImage = `url(./carnivorous-plant.png)`
+        // this.div.style.backgroundImage = `url(image/mushroom.svg)`
+        this.div.style.backgroundImage = `url(image/carnivorous-plant.png)`
         this.div.style.backgroundSize = 'cover'
         this.div.style.position = "absolute"; // Ensure the div is positioned
         document.body.appendChild(this.div)
@@ -93,7 +85,8 @@ class Enemy {
 
     draw() {
         this.div.style.left = this.position.current.x + "px";
-        this.div.style.top = window.innerHeight - 10 + "px";
+        // this.div.style.top = window.innerHeight - 10 + "px";
+        this.div.style.top = platformTop - platformImageHeight + "px";
         this.div.style.width = this.width + "px";
         this.div.style.height = this.height + "px";
     }
@@ -109,6 +102,66 @@ class Enemy {
             this.movementDirection = 'right'
         }
         this.draw()
+    }
+}
+
+class Player {
+    constructor(){
+        this.position = {
+            x: 20,
+            y: 20
+        }
+        this.width = 50
+        this.height = 50
+        this.velocity = {
+            x: 0,
+            y: 1
+        }
+        
+        this.div = document.createElement('div')
+        this.div.setAttribute("id", "mainPlayer")
+        // this.div.style.backgroundColor = "red"
+        // div.playerDiv.backgroundImage = `url(${mario})`;
+        this.div.style.backgroundImage = `url(image/mario.jpg)`
+        this.div.style.backgroundSize = 'cover'
+        this.div.style.position = "absolute"; // Ensure the div is positioned
+        document.body.appendChild(this.div)
+    }
+
+    draw() {
+        this.div.style.left = this.position.x + "px";
+        this.div.style.top = this.position.y + "px";
+        this.div.style.width = this.width + "px";
+        this.div.style.height = this.height + "px";
+    }
+
+    updatePosition() {
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+    
+        let onPlatform = false;
+    
+        platforms.forEach((platform) => {
+            if (
+                this.position.x + this.width > platform.position.x &&   // Player's right side is within platform's left side
+                this.position.x < platform.position.x + platform.width &&   // Player's left side is within platform's right side
+                this.position.y + this.height <= platform.position.y &&   // Player's bottom is above platform
+                this.position.y + this.height + this.velocity.y >= platform.position.y  // Player will land on platform
+            ) {  
+                console.log('collision detected');
+                this.position.y = platform.position.y - this.height;  // Place player on top of platform
+                this.velocity.y = 0;  // Stop falling
+                onPlatform = true;
+            }
+        });
+    
+        if (!onPlatform) {
+            this.velocity.y += gravity;  // Apply gravity only when not on a platform
+        } else {
+            this.velocity.y = 0;  // Stop falling
+        }
+    
+        this.draw();
     }
 }
 
@@ -198,8 +251,8 @@ const animate = () => {
 
 document.addEventListener("keydown", (event) => {
     const pressedKey = event.keyCode
-    console.log("pressedKey");
-    console.log(pressedKey);
+    // console.log("pressedKey");
+    // console.log(pressedKey);
     
     switch(pressedKey){
         case 32:
@@ -207,19 +260,16 @@ document.addEventListener("keydown", (event) => {
         case 87:
             keys.up.pressed = true
             player.velocity.y -= 10
-            console.log('up key pressed')
             break;
         case 39:
         case 68:
             keys.right.pressed = true
             // player.velocity.x = 1
-            console.log('right key pressed')
             break;
         case 37:
         case 65:
             keys.left.pressed = true
             // player.velocity.x = -1
-            console.log('left key pressed')
             break;
 
     }
@@ -245,5 +295,25 @@ document.addEventListener("keyup", (event) => {
     }
 });
 
+
+const platforms = [
+    new Platform({x: 0, y: platformTop}),
+    new Platform({x:platformImageWidth-3, y: platformTop}),
+    new Platform({x: platformImageWidth*2 +100, y: platformTop}),
+    new Platform({x: platformImageWidth/2, y:platformTop -200, width: platformImageWidth/6, height: platformImageHeight, type: 'platform'}),
+    new Platform({x: platformImageWidth -220, y:platformTop -350, type: 'platform'})
+];
+
+
+platforms.forEach((platform) => {
+    platform.draw()
+});
+
 init()
 animate()
+
+
+
+
+
+
