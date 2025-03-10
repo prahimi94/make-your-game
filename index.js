@@ -111,8 +111,8 @@ class Player {
             x: 20,
             y: 20
         }
-        this.width = 50
-        this.height = 50
+        this.width = 100
+        this.height = 100
         this.velocity = {
             x: 0,
             y: 1
@@ -122,7 +122,9 @@ class Player {
         this.div.setAttribute("id", "mainPlayer")
         // this.div.style.backgroundColor = "red"
         // div.playerDiv.backgroundImage = `url(${mario})`;
-        this.div.style.backgroundImage = `url(image/mario.jpg)`
+        // this.div.style.backgroundImage = `url(image/mario.jpg)`
+        // this.div.style.backgroundImage = `url(image/mario-49314.png)`
+        this.div.style.backgroundImage = `url(image/runnig-mario.gif)`
         this.div.style.backgroundSize = 'cover'
         this.div.style.position = "absolute"; // Ensure the div is positioned
         document.body.appendChild(this.div)
@@ -136,9 +138,6 @@ class Player {
     }
 
     updatePosition() {
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
-    
         let onPlatform = false;
     
         platforms.forEach((platform) => {
@@ -161,6 +160,9 @@ class Player {
             this.velocity.y = 0;  // Stop falling
         }
     
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+
         this.draw();
     }
 }
