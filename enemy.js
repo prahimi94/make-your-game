@@ -1,8 +1,8 @@
-import { platformTop } from './platform.js';
+import { groundTop } from './platform.js';
 import { platformImageHeight } from './platform.js';
 import { scrollOffset } from './playerMovement.js';
 
-let enemies = []
+export let enemies = []
 let enemyIndex = 0
 
 class Enemy {
@@ -39,7 +39,7 @@ class Enemy {
     draw() {
         this.div.style.left = this.position.current.x + "px";
         // this.div.style.top = window.innerHeight - 10 + "px";
-        this.div.style.top = platformTop - platformImageHeight + "px";
+        this.div.style.top = groundTop - platformImageHeight + "px";
         this.div.style.width = this.width + "px";
         this.div.style.height = this.height + "px";
     }
