@@ -39,7 +39,6 @@ class Platform {
 }
 
 
-
 export let platforms = [];
 
 export const initPlatforms = () => {
