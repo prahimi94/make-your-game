@@ -8,6 +8,7 @@ let enemyIndex = 0
 class Enemy {
     constructor(x, endX, index){
         this.position = {
+            y: groundTop - platformImageHeight,
             start: {
                 x: x,
             },
@@ -39,7 +40,7 @@ class Enemy {
     draw() {
         this.div.style.left = this.position.current.x + "px";
         // this.div.style.top = window.innerHeight - 10 + "px";
-        this.div.style.top = groundTop - platformImageHeight + "px";
+        this.div.style.top = this.position.y + "px";
         this.div.style.width = this.width + "px";
         this.div.style.height = this.height + "px";
     }

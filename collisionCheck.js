@@ -1,73 +1,102 @@
- export const collisionChecker = (firstElem, secondElem, secondElemType) => {
+export const collitedFromTop = (player, obstacle) => {
+    const playerBottom = player.position.y + player.height;
+    const playerRight = player.position.x + player.width;
+    const playerLeft = player.position.x;
+    const playerTop = player.position.y;
+
+    const playerBottomNextFrame = playerBottom + player.velocity.y;
+    const playerRightNextFrame = playerRight + player.velocity.x;
+    const playerLeftNextFrame = playerLeft + player.velocity.x;
+    const playerTopNextFrame = playerTop + player.velocity.y; 
+
+    const obstacleBottom = obstacle.position.y + obstacle.height;
+    const obstacleRight = obstacle.position.x + obstacle.width;
+    const obstacleLeft = obstacle.position.x;
+    const obstacleTop = obstacle.position.y;
+
     return (
-         firstElem.position.x + firstElem.width > secondElem.position.x &&   // firstElem's right side is within secondElem's left side
-        firstElem.position.x < secondElem.position.x + secondElem.width &&   // firstElem's left side is within secondElem's right side
-       firstElem.position.y + firstElem.height <= secondElem.position.y    // firstElem's bottom is above secondElem          firstElem.position.y + firstElem.height + firstElem.velocity.y >= secondElem.position.y  // firstElem will land on secondElem
-      )
-    } 
+        playerRight > obstacleLeft &&   // Player's right side is within obstacle's left side
+        playerLeft < obstacleRight &&   // Player's left side is within obstacle's right side
+        playerBottom <= obstacleTop &&   // Player's bottom is above obstacle
+        playerBottomNextFrame >= obstacleTop  // Player will land on obstacle
+    )
+}
 
-    export const collisionCheck = (firstElem, secondElems) => {
- updatePosition()
-    {
-        firstElem.position.x += firstElem.velocity.x;
-        firstElem.position.y += firstElem.velocity.y;
-        firstElem.draw();
-    }
-       
-    let onsecondElem = false;
-    secondElems.forEach((secondElem) => {
-    if (secondElem.type === 'secondElem' || secondElem.type === 'ground') { 
-            // Check if the secondElem is a secondElem
-        if (firstElem.position.x + firstElem.width > secondElem.position.x &&   // Player's right side is within secondElem's left side
-            firstElem.position.x < secondElem.position.x + secondElem.width &&   // Player's left side is within secondElem's right side
-            firstElem.position.y + firstElem.height <= secondElem.position.y &&   // Player's bottom is above secondElem
-            firstElem.position.y + firstElem.height + firstElem.velocity.y >= secondElem.position.y  // Player will land on secondElem
-        ){  
-            console.log('collision detected');
-            firstElem.position.y = secondElem.position.y - firstElem.height;  // Place player on top of secondElem
-            firstElem.velocity.y = 0;  // Stop falling
-            onsecondElem = true;  
-            // Check if player hits the bottom of the secondElem
-    }   else if 
-         (firstElem.position.y <= secondElem.position.y + secondElemImageHeight &&
-         firstElem.position.y - firstElem.velocity.y > secondElem.position.y + secondElemImageHeight && // Player was below last frame
-         firstElem.position.x + firstElem.width > secondElem.position.x && // Within secondElem X range
-         firstElem.position.x < secondElem.position.x + secondElem.width &&
-         firstElem.velocity.y < 0 // Only detect if moving upward
-        ) {
-            firstElem.position.y = secondElem.position.y + secondElemImageHeight; // Prevent passing through
-            firstElem.velocity.y = 2; // Give downward force after hitting
-        }
-    } else if (secondElem.type === 'pipe') {
-        if (
-            firstElem.position.x + firstElem.width > secondElem.position.x && // Player's right side is within secondElem's left side
-            firstElem.position.x < secondElem.position.x + secondElem.width && // Player's left side is within secondElem's right side
-            firstElem.position.y + firstElem.height > secondElem.position.y && // Player's bottom is below secondElem's top
-            firstElem.position.y < secondElem.position.y + secondElem.height // Player's top is above secondElem's bottom
-        ) {
-            firstElem.position.x = secondElem.position.x + secondElem.width; // Place player to the right of the secondElem
-            firstElem.velocity.x = 0; // Stop horizontal movement
-        } else if (
-            firstElem.position.x < secondElem.position.x + secondElem.width && // Player's left side is within secondElem's right side
-            firstElem.position.x + firstElem.width > secondElem.position.x && // Player's right side is within secondElem's left side
-            firstElem.position.x + firstElem.width + firstElem.velocity.x >= secondElem.position.x && // Player will hit the left side of the secondElem
-            firstElem.position.y + firstElem.height > secondElem.position.y && // Player's bottom is below secondElem's top
-            firstElem.position.y < secondElem.position.y + secondElem.height // Player's top is above secondElem's bottom
-        ) {
-            firstElem.position.x = secondElem.position.x - firstElem.width; // Place player to the left of the secondElem
-            firstElem.velocity.x = 0; // Stop horizontal movement
-        } else if (
-            firstElem.position.x < secondElem.position.x + secondElem.width && // Player's left side is within secondElem's right side
-            firstElem.position.x + firstElem.velocity.x <= secondElem.position.x + secondElem.width && // Player will hit the right side of the secondElem
-            firstElem.position.y + firstElem.height > secondElem.position.y && // Player's bottom is below secondElem's top
-            firstElem.position.y < secondElem.position.y + secondElem.height // Player's top is above secondElem's bottom
-        ) {
-            firstElem.position.x = secondElem.position.x + secondElem.width; // Place player to the right of the secondElem
-            firstElem.velocity.x = 0; // Stop horizontal movement
-        }
-    }
-    }    
-    );
-   
-    }
+export const collitedFromBottom = (player, obstacle) => {
+    const playerBottom = player.position.y + player.height;
+    const playerRight = player.position.x + player.width;
+    const playerLeft = player.position.x;
+    const playerTop = player.position.y;
 
+    const playerBottomNextFrame = playerBottom + player.velocity.y;
+    const playerRightNextFrame = playerRight + player.velocity.x;
+    const playerLeftNextFrame = playerLeft + player.velocity.x;
+    const playerTopNextFrame = playerTop + player.velocity.y; 
+
+    const obstacleBottom = obstacle.position.y + obstacle.height;
+    const obstacleRight = obstacle.position.x + obstacle.width;
+    const obstacleLeft = obstacle.position.x;
+    const obstacleTop = obstacle.position.y;
+
+    return (
+        playerTop <= obstacleTop + obstacle.height &&
+        playerTop - player.velocity.y > obstacleTop + obstacle.height && // Player was below last frame
+        playerRight > obstacleLeft && // Within obstacle X range
+        playerLeft < obstacleRight &&
+        player.velocity.y < 0 // Only detect if moving upward
+    )
+}
+
+export const collitedFromLeft = (player, obstacle) => {
+    const playerBottom = player.position.y + player.height;
+    const playerRight = player.position.x + player.width;
+    const playerLeft = player.position.x;
+    const playerTop = player.position.y;
+
+    const playerBottomNextFrame = playerBottom + player.velocity.y;
+    const playerRightNextFrame = playerRight + player.velocity.x;
+    const playerLeftNextFrame = playerLeft + player.velocity.x;
+    const playerTopNextFrame = playerTop + player.velocity.y; 
+
+    const obstacleBottom = obstacle.position.y + obstacle.height;
+    const obstacleRight = obstacle.position.x + obstacle.width;
+    const obstacleLeft = obstacle.position.x;
+    const obstacleTop = obstacle.position.y;
+
+    return (
+        playerLeft < obstacleRight && // Player's left side is within obstacle's right side
+        playerRight > obstacleLeft && // Player's right side is within obstacle's left side
+        
+        playerLeftNextFrame <= obstacleLeft && // Player will hit the left side of the obstacle
+
+        playerBottom > obstacleTop && // Player's bottom is below obstacle's top
+        playerTop < obstacleBottom // Player's top is above obstacle's bottom
+    )
+}
+
+export const collitedFromRight = (player, obstacle) => {
+    const playerBottom = player.position.y + player.height;
+    const playerRight = player.position.x + player.width;
+    const playerLeft = player.position.x;
+    const playerTop = player.position.y;
+
+    const playerBottomNextFrame = playerBottom + player.velocity.y;
+    const playerRightNextFrame = playerRight + player.velocity.x;
+    const playerLeftNextFrame = playerLeft + player.velocity.x;
+    const playerTopNextFrame = playerTop + player.velocity.y; 
+
+    const obstacleBottom = obstacle.position.y + obstacle.height;
+    const obstacleRight = obstacle.position.x + obstacle.width;
+    const obstacleLeft = obstacle.position.x;
+    const obstacleTop = obstacle.position.y;
+
+    return (
+        playerLeft < obstacleRight && // Player's left side is within obstacle's right side
+        playerRight > obstacleLeft && // Player's right side is within obstacle's left side
+        
+        playerRightNextFrame >= obstacleRight &&  // Player will hit the right side of the obstacle
+        
+        playerBottom > obstacleTop && // Player's bottom is below obstacle's top
+        playerTop < obstacleBottom // Player's top is above obstacle's bottom
+    )
+}

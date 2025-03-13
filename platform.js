@@ -48,7 +48,7 @@ export const initPlatforms = () => {
         new Platform({x: platformImageWidth*2 +100, y: groundTop}),
         new Platform({x: platformImageWidth/2, y:groundTop -200, width: platformImageWidth/6, height: platformImageHeight, type: 'platform'}),
         new Platform({x: platformImageWidth -220, y:groundTop -350, type: 'platform'}),
-        new Platform({x: platformImageWidth*3 , y:groundTop-200 ,  width: 100, height: 200, type: 'pipe'}),
+        new Platform({x: platformImageWidth , y:groundTop-200 ,  width: 100, height: 200, type: 'pipe'}),
         new Platform({x: platformImageWidth*3 + 100, y:groundTop-50 , width:100, height:50,  type: 'pipe'}),
     ]
     
