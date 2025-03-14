@@ -6,6 +6,7 @@ import { collitedFromTop, collitedFromBottom, collitedFromLeft, collitedFromRigh
 import { scrollBackground } from './Background/scrollBackground.js';
 
 export let player
+let leftScrollLimit = 0
 
 class Player {
     constructor(){
@@ -105,20 +106,25 @@ class Player {
         
         const movementDirection = this.velocity.x >= 0 ? 'right' : 'left'
         const scrollDirection = this.velocity.x >= 0 ? 'left' : 'right'
-        if(movementDirection == 'right' && this.position.x >= window.innerWidth / 2){
-            scrollBackground(this.velocity.x, scrollDirection)
-            platforms.forEach((platform) => {
-                platform.scrollPlatform(this.velocity.x, scrollDirection)
-            })
-        } /*else if(movementDirection == 'left' && this.position.x <= window.innerWidth / 2){
-            scrollBackground(this.velocity.x, scrollDirection)
-            platforms.forEach((platform) => {
-                platform.scrollPlatform(this.velocity.x, scrollDirection)
-            })
-        }*/ else {
-            this.position.x += this.velocity.x;
-        }
+        if(movementDirection == 'right') {
 
+            if(this.position.x >= window.innerWidth / 2){
+                
+                scrollBackground(this.velocity.x, scrollDirection)
+                platforms.forEach((platform) => {
+                    platform.scrollPlatform(this.velocity.x, scrollDirection)
+                })
+            } else {
+                this.position.x += this.velocity.x;
+            }
+            if (this.position.x >= window.innerWidth) {
+                leftScrollLimit += this.velocity.x
+            }
+        } else {
+            if(this.position.x >= leftScrollLimit){
+                this.position.x += this.velocity.x;
+            }
+        } 
         
         this.position.y += this.velocity.y;
         
