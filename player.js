@@ -3,6 +3,7 @@ import { platforms, groundTop } from './platform.js';
 import { init } from './index.js';
 import { enemies } from './enemy.js';
 import { collitedFromTop, collitedFromBottom, collitedFromLeft, collitedFromRight } from './collisionCheck.js';
+import { scrollBackground } from './Background/scrollBackground.js';
 
 export let player
 
@@ -19,6 +20,9 @@ class Player {
             y: 1
         }
         this.remainingLives = 3
+        this.jumpCount = 0
+        this.maxJumps = 3
+        this.isJumping = false;
         
         this.div = document.createElement('div')
         this.div.setAttribute("id", "mainPlayer")
@@ -53,18 +57,19 @@ class Player {
                 this.position.y = platformTop - this.height;  // Place player on top of platform
                 this.velocity.y = 0;  // Stop falling
                 onPlatform = true;
-                this.isJumping = false;  // Reset the jump flag
-                this.jumpCount = 0;  // Reset the jump count
+                if(!this.isJumping) {
+                    this.jumpCount = 0;  // Reset the jump count
+                }
                 // Check if player hits the bottom of the platform
             } else if (collitedFromBottom(this, platform)) { // Reset the jump count
                 // Check if player hits the bottom of the platform
                 this.position.y = platformBottom; // Prevent passing through
                 this.velocity.y = 2; // Give downward force after hitting
             } else if (collitedFromLeft(this, platform)) {
-                this.position.x = platformLeft - this.width; // Place player to the left of the platform
+                // this.position.x = platformLeft - this.width; // Place player to the left of the platform
                 this.velocity.x = 0; // Stop horizontal movement
              } else if (collitedFromRight(this, platform)) {
-                this.position.x = platformRight; // Place player to the right of the platform
+                // this.position.x = platformRight; // Place player to the right of the platform
                 this.velocity.x = 0; // Stop horizontal movement
             }
             
@@ -80,8 +85,6 @@ class Player {
             //     this.position.y = platformTop - this.height;  // Place player on top of platform
             //     this.velocity.y = 0;  // Stop falling
             //     onPlatform = true;
-            //     this.isJumping = false;  // Reset the jump flag
-            //     this.jumpCount = 0;  // Reset the jump count
             //     // Check if player hits the bottom of the platform
             // } else if (collitedFromBottom(this, platform)) { // Reset the jump count
             //     // Check if player hits the bottom of the platform
@@ -89,6 +92,7 @@ class Player {
             //     this.velocity.y = 2; // Give downward force after hitting
             // } else
              if (collitedFromLeft(this, enemy) || collitedFromRight(this, enemy)) {
+                console.log('collited with enemy')
                 this.decreseLive();
             }
         })
@@ -99,16 +103,42 @@ class Player {
             this.velocity.y = 0;  // Stop falling
         }
         
-        this.position.x += this.velocity.x;
+        const movementDirection = this.velocity.x >= 0 ? 'right' : 'left'
+        const scrollDirection = this.velocity.x >= 0 ? 'left' : 'right'
+        if(movementDirection == 'right' && this.position.x >= window.innerWidth / 2){
+            scrollBackground(this.velocity.x, scrollDirection)
+            platforms.forEach((platform) => {
+                platform.scrollPlatform(this.velocity.x, scrollDirection)
+            })
+        } /*else if(movementDirection == 'left' && this.position.x <= window.innerWidth / 2){
+            scrollBackground(this.velocity.x, scrollDirection)
+            platforms.forEach((platform) => {
+                platform.scrollPlatform(this.velocity.x, scrollDirection)
+            })
+        }*/ else {
+            this.position.x += this.velocity.x;
+        }
+
+        
         this.position.y += this.velocity.y;
         
         // Check if player falls into a death pit
         if (this.position.y > groundTop) {
             this.decreseLive();
         }
+
+        
         
         this.draw();
     }
+
+    jump() {
+         if (this.jumpCount < this.maxJumps) {
+             this.jumpCount++;
+             this.velocity.y = -10; 
+             this.isJumping = true;
+         }
+     }
 
     decreseLive() {
         this.remainingLives--;
@@ -128,13 +158,6 @@ class Player {
             init(); // Restart the game
         }
     }
-
-//    jump() {
-//         if (this.jumpCount < this.maxJumps) {
-//             this.velocity.y = -10; 
-//             this.isJumping = true;
-//         }
-//     }
 }
 
 export const initPlayer = () => {

@@ -6,11 +6,35 @@ body {
     /* Prevents scrolling */
     height: 100%;
     /* Ensures the body takes up the full height */
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+    font-family: 'SuperMario256', sans-serif; /* Apply the font here */
+}
+
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 15px;
+
+    width: 100vw;
+    height: 10vh;
+    position: relative;
+    overflow: hidden;
 }
 
 #game-container {
     width: 100vw;
-    height: 100vh;
+    height: 71vh;
     position: relative;
     overflow: hidden;
 }

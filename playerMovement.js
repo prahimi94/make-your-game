@@ -1,5 +1,6 @@
 import { init } from './index.js';
 import { player } from './player.js';
+import { platforms } from './platform.js';
 
 const keys = {
     right: {
@@ -23,24 +24,24 @@ export const initPlayerMovement = () => {
 }
 
 document.addEventListener("keydown", (event) => {
-    const pressedKey = event.keyCode
+    const pressedKey = event.code
     // console.log("pressedKey");
     // console.log(pressedKey);
     
     switch(pressedKey){
-        case 32:
-        case 38:
-        case 87:
+        case 'ArrowUp':
+        case 'KeyW':
+        case 'Space':
             keys.up.pressed = true
-            player.velocity.y -= 10
+            player.jump()
             break;
-        case 39:
-        case 68:
+        case 'ArrowRight':
+        case 'KeyW':
             keys.right.pressed = true
             // player.velocity.x = 1
             break;
-        case 37:
-        case 65:
+        case 'ArrowLeft':
+        case 'KeyA':
             keys.left.pressed = true
             // player.velocity.x = -1
             break;
@@ -49,37 +50,42 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
-    const pressedKey = event.keyCode
+    const pressedKey = event.code
 
     switch(pressedKey){
-        case 32:
-        case 38:
-        case 87:
+        case 'ArrowUp':
+        case 'KeyW':
+        case 'Space':
             keys.up.pressed = false
+            player.isJumping = false
             break;
-        case 39:
-        case 68:
+        case 'ArrowRight':
+        case 'KeyW':
             keys.right.pressed = false
             break;
-        case 37:
-        case 65:
+        case 'ArrowLeft':
+        case 'KeyA':
             keys.left.pressed = false
             break;
     }
 });
 
 const animatePlayerMovement = () => {
-    player.updatePosition()
     
     if (keys.right.pressed) {
+        player.div.style.backgroundImage = `url(image/runnig-mario.gif)`
         player.velocity.x = 5
         scrollOffset += 5
     } else if (keys.left.pressed) {
+        player.div.style.backgroundImage = `url(image/reverse-runnig-mario.gif)`
         player.velocity.x = -5
         scrollOffset -= 5
     } else {
+        player.div.style.backgroundImage = `url(image/fixed-mario.png)`
         player.velocity.x = 0
     }
+
+    player.updatePosition()
 
     requestAnimationFrame(animatePlayerMovement)
 
