@@ -20,17 +20,26 @@ export const initScoreBoard = () => {
     updateCoinsCount(0);
     updateScoreCount(20);
 
-    setInterval(()=>{
+    requestAnimationFrame(updateTimer);
+
+}
+
+let lastTime = performance.now();
+
+function updateTimer(currentTime) {
+    if (currentTime - lastTime >= 1000) {
+        lastTime = currentTime;
         timer--;
-        console.log("timer: ", timer)
+        console.log("timer: ", timer);
         scoreBoardTimer.innerHTML = timer;
 
-        if(timer <= 0) {
-            alert('You Lose!')
-            init()
+        if (timer <= 0) {
+            alert('You Lose!');
+            init();
+            return; // Stop the loop
         }
-    }, 1000);
-
+    }
+    requestAnimationFrame(updateTimer);
 }
 
 
@@ -44,8 +53,4 @@ export const updateCoinsCount = (coinsCount) => {
 
 export const updateScoreCount = (ScoreCount) => { 
     scoreBoardScore.innerHTML = ScoreCount;
-}
-
-export const updateTimer = (timer) => { 
-    scoreBoardTimer.innerHTML = timer;
 }
