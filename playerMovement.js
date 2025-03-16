@@ -89,7 +89,7 @@ const animatePlayerMovement = () => {
 
     requestAnimationFrame(animatePlayerMovement)
 
-    if (scrollOffset == 5000) {
+    if (scrollOffset == 5700) {
         alert('You Win!')
         init()
     }

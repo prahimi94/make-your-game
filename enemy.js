@@ -1,5 +1,5 @@
 import { groundTop } from './platform.js';
-import { platformImageHeight } from './platform.js';
+import { platformImageHeight, platformImageWidth } from './platform.js';
 import { scrollOffset } from './playerMovement.js';
 
 export let enemies = []
@@ -89,12 +89,17 @@ export const initEnemies = () => {
     //     enemies.push(enemy);
     // }
 
+    
     enemies.push(
+        // دشمن‌های متحرک بین سکوها و زمین
         new Enemy({x: 200, endX: 400, index: 0}),
-        new Enemy({x: 700, endX: 900, index: 1}),
-        // new Enemy({x: 300, endX: 400, index: 2}),
-        // new Enemy({x: 400, endX: 500, index: 3}),
-    ) 
+        new Enemy({x: 750, endX: 950, index: 1}),
+        new Enemy({x: 1300, endX: 1500, index: 2}),
+        new Enemy({x: 1700, endX: 1900, index: 3}),
+        new Enemy({x: 2600, endX: 2800, index: 4}),
+        new Enemy({x: 3800, endX: 4050, index: 5}),
+        new Enemy({x: 3850, endX: 4100, index: 6}),
+    );
     
     enemies.forEach((enemy, index) => {
         if (index % 2 == 0) {
