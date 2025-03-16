@@ -6,24 +6,18 @@ export let enemies = []
 let enemyIndex = 0
 
 class Enemy {
-    constructor(x, endX, index){
+    constructor({x, endX, index, velocityX = 1, movementDirection = 'right'}){
         this.position = {
             y: groundTop - platformImageHeight,
-            start: {
-                x: x,
-            },
-            current: {
-                x: x,
-            },
-            end: {
-                x: endX,
-            }
+            x: x,
+            startX: x,
+            endX: endX
         }
-        this.movementDirection = 'right'
+        this.movementDirection = movementDirection
         this.width = 50
         this.height = 50
         this.velocity = {
-            x: 1
+            x: velocityX
         }
 
         this.index = index
@@ -38,7 +32,7 @@ class Enemy {
     }
 
     draw() {
-        this.div.style.left = this.position.current.x + "px";
+        this.div.style.left = this.position.x + "px";
         // this.div.style.top = window.innerHeight - 10 + "px";
         this.div.style.top = this.position.y + "px";
         this.div.style.width = this.width + "px";
@@ -46,14 +40,27 @@ class Enemy {
     }
 
     updatePosition() {
-        if(this.movementDirection == 'right' && this.position.current.x >= this.position.start.x && this.position.current.x < this.position.end.x){
-            this.position.current.x += this.velocity.x
-        } else if(this.movementDirection == 'right' && this.position.current.x == this.position.end.x){
+        if(this.movementDirection == 'right' && this.position.x >= this.position.startX && this.position.x < this.position.endX){
+            this.position.x += Math.abs(this.velocity.x) // just move foreward
+        } else if(this.movementDirection == 'right' && this.position.x >= this.position.endX){
             this.movementDirection = 'left'
-        } else if(this.movementDirection == 'left' && this.position.current.x > this.position.start.x){
-            this.position.current.x -= this.velocity.x
-        } else if (this.movementDirection == 'left' && this.position.current.x == this.position.start.x) {
+        } else if(this.movementDirection == 'left' && this.position.x > this.position.startX){
+            this.position.x -= Math.abs(this.velocity.x) // just move backward
+        } else if (this.movementDirection == 'left' && this.position.x <= this.position.startX) {
             this.movementDirection = 'right'
+        }
+        this.draw()
+    }
+
+    scrollEnemy(velocity, scrollDirection = 'left') {
+        if(scrollDirection == 'left'){
+            this.position.startX -= velocity
+            this.position.endX -= velocity
+            this.position.x -= velocity
+        } else { 
+            this.position.startX += velocity
+            this.position.endX += velocity
+            this.position.x += velocity
         }
         this.draw()
     }
@@ -66,45 +73,48 @@ export const initEnemies = () => {
     }
 
     enemies = []
-    enemyIndex = 0
-    setInterval(() => {
-        // Check the number of visible enemies
-        const visibleEnemies = enemies.filter(enemy => 
-            enemy.position.current.x >= scrollOffset && enemy.position.current.x <= scrollOffset + window.innerWidth
-        ).length
 
-        // If the number of visible enemies is below the threshold, create new enemies
-        if (visibleEnemies < 5) {
-            const enemySpacing = window.innerWidth / 5; // Adjust the number of enemies per screen width
-            for (let i = 0; i < 5 - visibleEnemies; i++) {
-                const randomOffset = Math.round(Math.random()) * enemySpacing; // Add randomness to the enemy position
-                const x = scrollOffset + i * enemySpacing + randomOffset;
-                const endX = x + 200;
-                const enemy = new Enemy(x, endX, enemyIndex++);
-                enemy.draw();
-                enemies.push(enemy);
-            }
+    // let rightOfLastEnemy = 0
+    // for (let enemyIndex = 0; enemyIndex < 5; enemyIndex++) {
+    //     const x = scrollOffset + i * enemySpacing + randomOffset;
+    //     const endX = x + 200;
+    //     const enemy = new Enemy(x, endX, enemyIndex++);
+
+    //     // Ensure enemies do not move in parallel
+    //     if (enemyIndex % 2 == 0) { 
+    //         enemy.velocity.x = 2;
+    //     }
+        
+    //     enemy.draw();
+    //     enemies.push(enemy);
+    // }
+
+    enemies.push(
+        new Enemy({x: 200, endX: 400, index: 0}),
+        new Enemy({x: 700, endX: 900, index: 1}),
+        // new Enemy({x: 300, endX: 400, index: 2}),
+        // new Enemy({x: 400, endX: 500, index: 3}),
+    ) 
+    
+    enemies.forEach((enemy, index) => {
+        if (index % 2 == 0) {
+            enemy.velocity.x = 2
+        } else {
+            enemy.velocity.x = 1
         }
-
-        // Ensure enemies do not move in parallel
-        enemies.forEach((enemy, index) => {
-            if (index % 2 === 0) {
-                enemy.velocity.x = 1;
-            } else {
-                enemy.velocity.x = 2;
-            }
-        });
-    }, 2000)
+        enemy.draw()
+    });
 }
 
 const animateEnemyMovement = () => {
     enemies.forEach((enemy, index) => {
         enemy.updatePosition()
         // Remove enemies that move off-screen
-        if (enemy.position.current.x < scrollOffset || enemy.position.current.x > scrollOffset + window.innerWidth) {
-            document.body.removeChild(enemy.div)
-            enemies.splice(index, 1)
-        }
+        
+        // if (enemy.position.x < scrollOffset || enemy.position.x > scrollOffset + window.innerWidth) {
+        //     document.body.removeChild(enemy.div)
+        //     enemies.splice(index, 1)
+        // }
     })
 
     requestAnimationFrame(animateEnemyMovement)

@@ -1,14 +1,14 @@
 import {init} from './index.js'
 
 console.log('Score board loaded')
-export let timer = 20;
+export let timer = 400;
 const scoreBoardLives = document.getElementById('lives');
 const scoreBoardCoins = document.getElementById('coins');
 const scoreBoardScore = document.getElementById('score');
 const scoreBoardTimer = document.getElementById('timer');
 
 export const initScoreBoard = () => {
-    timer = 20
+    timer = 400
     scoreBoardTimer.innerHTML = timer;
 
     const oldPlatformDivs = document.getElementsByClassName('platform')
@@ -20,6 +20,7 @@ export const initScoreBoard = () => {
     updateCoinsCount(0);
     updateScoreCount(20);
 
+    // todo: add timer
     requestAnimationFrame(updateTimer);
 
 }

@@ -119,6 +119,10 @@ class Player {
                 platforms.forEach((platform) => {
                     platform.scrollPlatform(this.velocity.x, scrollDirection) // Scroll the platforms with the player speed to simulate the player moving
                 })
+
+                enemies.forEach((enemy) => {
+                    enemy.scrollEnemy(this.velocity.x, scrollDirection) // Scroll the platforms with the player speed to simulate the player moving
+                })
             } else {
                 this.position.x += this.velocity.x;
             }

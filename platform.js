@@ -31,7 +31,7 @@ class Platform {
             this.div.style.backgroundSize = 'contain';
         } else if (this.type == 'pipe') {
             this.div.style.backgroundImage = `url(image/mario-pipe.png)`;
-            this.div.style.backgroundSize = 'contain';
+            this.div.style.backgroundSize = 'cover';
             this.div.style.backgroundRepeat = 'round';
         } else {
             this.div.style.backgroundImage = `url(image/bricks.png)`;
@@ -74,8 +74,8 @@ export const initPlatforms = () => {
         new Platform({x: platformImageWidth/2, y:groundTop -100, index: 3, width: platformImageWidth/6, height: platformImageHeight, type: 'platform'}),
         new Platform({x: platformImageWidth -120, y:groundTop -250, index: 4, type: 'platform'}),
 
-        new Platform({x: platformImageWidth * 2 , y:groundTop-200, index: 5,  width: 100, height: 200, type: 'pipe'}),
-        new Platform({x: platformImageWidth*3 + 100, y:groundTop-100, index: 6, width:100, height:100,  type: 'pipe'}),
+        new Platform({x: platformImageWidth * 2 , y:groundTop-150, index: 5,  width: 100, height: 150, type: 'pipe'}),
+        new Platform({x: platformImageWidth*3 + 100, y:groundTop-70, index: 6, width:100, height:70,  type: 'pipe'}),
     ) 
     
     platforms.forEach((platform) => {
