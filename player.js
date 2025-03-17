@@ -177,6 +177,9 @@ class Player {
 }
 
 export const initPlayer = () => {
+    import('./playerMovement.js').then(playerMovementModule => {
+        playerMovementModule.initPlayerMovement();
+    });
     const oldPlayerDiv = document.getElementById('mainPlayer')
     if(oldPlayerDiv){
         document.body.removeChild(oldPlayerDiv)

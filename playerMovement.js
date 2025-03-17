@@ -1,4 +1,6 @@
 import { init } from './index.js';
+import { resetGame } from './stateManager.js'
+
 import { player } from './player.js';
 import { platforms } from './platform.js';
 
@@ -91,7 +93,8 @@ const animatePlayerMovement = () => {
 
     if (scrollOffset == 5700) {
         alert('You Win!')
-        init()
+        // init()
+        resetGame()
     }
 }
 

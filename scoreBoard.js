@@ -1,4 +1,4 @@
-import {init} from './index.js'
+import { resetGame } from './stateManager.js'
 
 console.log('Score board loaded')
 export let timer = 400;
@@ -36,7 +36,8 @@ function updateTimer(currentTime) {
 
         if (timer <= 0) {
             alert('You Lose!');
-            init();
+            // init();
+            resetGame()
             return; // Stop the loop
         }
     }

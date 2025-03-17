@@ -1,6 +1,5 @@
 import { groundTop } from './platform.js';
 import { platformImageHeight, platformImageWidth } from './platform.js';
-import { scrollOffset } from './playerMovement.js';
 
 export let enemies = []
 let enemyIndex = 0
