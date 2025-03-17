@@ -1,4 +1,4 @@
-export const collitedFromTop = (player, obstacle) => {
+export const collidedFromTop = (player, obstacle) => {
     const playerBottom = player.position.y + player.height;
     const playerRight = player.position.x + player.width;
     const playerLeft = player.position.x;
@@ -22,7 +22,7 @@ export const collitedFromTop = (player, obstacle) => {
     )
 }
 
-export const collitedFromBottom = (player, obstacle) => {
+export const collidedFromBottom = (player, obstacle) => {
     const playerBottom = player.position.y + player.height;
     const playerRight = player.position.x + player.width;
     const playerLeft = player.position.x;
@@ -47,7 +47,7 @@ export const collitedFromBottom = (player, obstacle) => {
     )
 }
 
-export const collitedFromLeft = (player, obstacle) => {
+export const collidedFromLeft = (player, obstacle) => {
     const playerBottom = player.position.y + player.height;
     const playerRight = player.position.x + player.width;
     const playerLeft = player.position.x;
@@ -74,7 +74,7 @@ export const collitedFromLeft = (player, obstacle) => {
     )
 }
 
-export const collitedFromRight = (player, obstacle) => {
+export const collidedFromRight = (player, obstacle) => {
     const playerBottom = player.position.y + player.height;
     const playerRight = player.position.x + player.width;
     const playerLeft = player.position.x;
@@ -100,3 +100,22 @@ export const collitedFromRight = (player, obstacle) => {
         playerTop < obstacleBottom // Player's top is above obstacle's bottom
     )
 }
+export const collidedWithCoin = (player, coin) => {
+    const playerBottom = player.position.y + player.height;
+    const playerRight = player.position.x + player.width;
+    const playerLeft = player.position.x;
+    const playerTop = player.position.y;
+
+    const coinBottom = coin.position.y + coin.height;
+    const coinRight = coin.position.x + coin.width;
+    const coinLeft = coin.position.x;
+    const coinTop = coin.position.y;
+
+    return (
+        playerRight > coinLeft &&   // Player's right side is within coin's left side
+        playerLeft < coinRight &&   // Player's left side is within coin's right side
+        playerBottom > coinTop &&   // Player's bottom is below coin's top
+        playerTop < coinBottom      // Player's top is above coin's bottom
+    );
+};
+
