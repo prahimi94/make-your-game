@@ -1,5 +1,6 @@
 import { initScoreBoard } from './scoreBoard.js';
 import { initPlatforms } from './platform.js';
+import { initCoins } from './coin.js';
 import { initEnemies } from './enemy.js';
 import { initPlayer } from './player.js';
 // import { initPlayerMovement } from './playerMovement.js';
@@ -7,8 +8,10 @@ import { initPlayer } from './player.js';
 export const init = () => { 
     initScoreBoard()
     initPlatforms()
+    initCoins()
     initEnemies()
     initPlayer()
+
     // initPlayerMovement()
     import('./playerMovement.js').then(playerMovementModule => {
         playerMovementModule.initPlayerMovement();
@@ -16,12 +19,3 @@ export const init = () => {
 }
 
 init()
-  
-// function pad(val) {
-//     var valString = val + "";
-//     if (valString.length < 2) {
-//       return "0" + valString;
-//     } else {
-//       return valString;
-//     }
-// }

@@ -1,8 +1,9 @@
 const gravity = 0.5
+import { coins } from './coin.js';
 import { platforms, groundTop } from './platform.js';
 import { init } from './index.js';
 import { enemies } from './enemy.js';
-import { collitedFromTop, collitedFromBottom, collitedFromLeft, collitedFromRight } from './collisionCheck.js';
+import { collidedFromTop, collidedFromBottom, collidedFromLeft, collidedFromRight, collidedWithCoin } from './collisionCheck.js';
 import { scrollBackground } from './Background/scrollBackground.js';
 import { updateLivesCount, updateScoreCount } from './scoreBoard.js';
 
@@ -57,7 +58,7 @@ class Player {
             const platformLeft = platform.position.x;
             const platformRight = platform.position.x + platform.width;
 
-            if (collitedFromTop(this, platform)) {  
+            if (collidedFromTop(this, platform)) {  
                 this.position.y = platformTop - this.height;  // Place player on top of platform
                 this.velocity.y = 0;  // Stop falling
                 onPlatform = true;
@@ -65,18 +66,24 @@ class Player {
                     this.jumpCount = 0;  // Reset the jump count
                 }
                 // Check if player hits the bottom of the platform
-            } else if (collitedFromBottom(this, platform)) { // Reset the jump count
+            } else if (collidedFromBottom(this, platform)) { // Reset the jump count
                 // Check if player hits the bottom of the platform
                 this.position.y = platformBottom; // Prevent passing through
                 this.velocity.y = 2; // Give downward force after hitting
-            } else if (collitedFromLeft(this, platform)) {
+            } else if (collidedFromLeft(this, platform)) {
                 // this.position.x = platformLeft - this.width; // Place player to the left of the platform
                 this.velocity.x = 0; // Stop horizontal movement
-             } else if (collitedFromRight(this, platform)) {
+             } else if (collidedFromRight(this, platform)) {
                 // this.position.x = platformRight; // Place player to the right of the platform
                 this.velocity.x = 0; // Stop horizontal movement
             }
             
+        });
+        coins.forEach((coin) => {
+            if (collidedWithCoin(this, coin)) {
+                console.log('collided with coin')   
+                coin.div.style.display = 'none';
+            }
         });
         
         enemies.forEach((enemy) => {
@@ -85,18 +92,18 @@ class Player {
             // const enemyLeft = enemy.position.x;
             // const enemyRight = enemy.position.x + enemy.width;
 
-            // if (collitedFromTop(this, enemy)) {  
+            // if (collidedFromTop(this, enemy)) {  
             //     this.position.y = platformTop - this.height;  // Place player on top of platform
             //     this.velocity.y = 0;  // Stop falling
             //     onPlatform = true;
             //     // Check if player hits the bottom of the platform
-            // } else if (collitedFromBottom(this, platform)) { // Reset the jump count
+            // } else if (collidedFromBottom(this, platform)) { // Reset the jump count
             //     // Check if player hits the bottom of the platform
             //     this.position.y = platformBottom; // Prevent passing through
             //     this.velocity.y = 2; // Give downward force after hitting
             // } else
-             if (collitedFromLeft(this, enemy) || collitedFromRight(this, enemy)) {
-                console.log('collited with enemy')
+             if (collidedFromLeft(this, enemy) || collidedFromRight(this, enemy)) {
+                console.log('collided with enemy')
                 this.decreseLive();
             }
         })
@@ -123,7 +130,12 @@ class Player {
                 enemies.forEach((enemy) => {
                     enemy.scrollEnemy(this.velocity.x, scrollDirection) // Scroll the platforms with the player speed to simulate the player moving
                 })
-            } else {
+                
+                coins.forEach((coin) => {
+                    coin.scrollCoin(this.velocity.x)
+                })
+             
+             } else {
                 this.position.x += this.velocity.x;
             }
 
