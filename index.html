@@ -15,12 +15,17 @@
     <div id="main">
         <div class="logo">
                 <a href="#"><img src="image/super-mario-logo.gif" alt="SuperMarioPlay logo" title="Play Super Mario online"></a>
-            
-            <div>play the Super Mario game online for free</div>
         </div>
 
         <div id="game-container">
-            <div id="scrollBackground"></div>
+            <div id="scrollBackground">
+                <div id="scoreBoard">
+                    <div>SCORE: <span id="score">-</span></div>
+                    <div>COINS: <span id="coins">-</span></div>
+                    <div>TIME: <span id="timer">-</span></div>
+                    <div>LIVES: <span id="lives">-</span></div>
+                </div>
+            </div>
         </div>
 
         <!-- <div id="mainGame" class="mainGame"></div> -->
@@ -31,6 +36,7 @@
 
     <script type="module" src="./Background/scrollBackground.js"></script>
     <script type="module" src="./menu.js"></script>
+    <!-- <script type="module" src="./scoreBoard.js"></script> -->
     <script type="module" src="./playerMovement.js"></script>
     <script type="module" src="./index.js"></script>
 </footer>

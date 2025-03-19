@@ -1,3 +1,8 @@
+@font-face {
+    font-family: SuperMario256;
+    src: url(../SuperMario256.ttf);
+}
+
 html,
 body {
     margin: 0;
@@ -30,6 +35,28 @@ body {
     height: 10vh;
     position: relative;
     overflow: hidden;
+}
+
+#scoreBoard{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    width: 100%;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'SuperMario256', sans-serif; /* Apply the font here */
+}
+
+#scoreBoard div{
+    padding: 15px 30px;
+    width: 20%;
+    text-align: center;
 }
 
 #game-container {

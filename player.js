@@ -5,6 +5,7 @@ import { init } from './index.js';
 import { enemies } from './enemy.js';
 import { collidedFromTop, collidedFromBottom, collidedFromLeft, collidedFromRight, collidedWithCoin } from './collisionCheck.js';
 import { scrollBackground } from './Background/scrollBackground.js';
+import { updateLivesCount, updateScoreCount } from './scoreBoard.js';
 
 export let player
 let leftScrollLimit = 0
@@ -22,6 +23,8 @@ class Player {
             y: 1
         }
         this.remainingLives = 3
+        this.coins = 0
+        this.distanceTravelled = 20
         this.jumpCount = 0
         this.maxJumps = 3
         this.isJumping = false;
@@ -112,14 +115,20 @@ class Player {
         }
         
         const movementDirection = this.velocity.x >= 0 ? 'right' : 'left'
-        const scrollDirection = this.velocity.x >= 0 ? 'left' : 'right'
+        const scrollDirection = movementDirection == 'right' ? 'left' : 'right' // Scroll the background in the opposite direction of the player
         if(movementDirection == 'right') {
+            this.distanceTravelled += this.velocity.x; // Increase the distance travelled by the player if player is moving right
+            updateScoreCount(this.distanceTravelled)
 
-            if(this.position.x >= window.innerWidth / 2){
-                
-                scrollBackground(this.velocity.x, scrollDirection)
+
+            if(this.position.x >= window.innerWidth / 2){ // Scroll the background and platforms instead of the player
+                scrollBackground(Math.floor(this.velocity.x) / 2, scrollDirection) //Scroll the background at half the speed of the player to create a parallax effect
                 platforms.forEach((platform) => {
-                    platform.scrollPlatform(this.velocity.x, scrollDirection)
+                    platform.scrollPlatform(this.velocity.x, scrollDirection) // Scroll the platforms with the player speed to simulate the player moving
+                })
+
+                enemies.forEach((enemy) => {
+                    enemy.scrollEnemy(this.velocity.x, scrollDirection) // Scroll the platforms with the player speed to simulate the player moving
                 })
                 
                 coins.forEach((coin) => {
@@ -129,13 +138,15 @@ class Player {
              } else {
                 this.position.x += this.velocity.x;
             }
-            if (this.position.x >= window.innerWidth) {
+
+            if (this.position.x >= window.innerWidth) { //Limit the player from scrolling off the screen from the left
                 leftScrollLimit += this.velocity.x
             }
-        } else {
-            if(this.position.x >= leftScrollLimit){
+        } else if(movementDirection == 'left' && this.position.x >= leftScrollLimit){
+                this.distanceTravelled += this.velocity.x; // Decrease the distance travelled by the player if player is trying to move left and is allowed to move left
+                updateScoreCount(this.distanceTravelled)
+                
                 this.position.x += this.velocity.x;
-            }
         } 
         
         this.position.y += this.velocity.y;
@@ -144,9 +155,7 @@ class Player {
         if (this.position.y > groundTop) {
             this.decreseLive();
         }
-
-        
-        
+                
         this.draw();
     }
 
@@ -160,11 +169,12 @@ class Player {
 
     decreseLive() {
         this.remainingLives--;
-        console.log('Remaining lives: ', this.remainingLives);
+        updateLivesCount(this.remainingLives);
+
         if (this.remainingLives > 0) {
             // Reset player position
             this.position = {
-                x: this.position.x - 200,
+                x: this.position.x + 100,
                 y: groundTop - 100
             };
             this.velocity = {
