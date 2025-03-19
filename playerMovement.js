@@ -14,6 +14,7 @@ const keys = {
     },
 }
 
+
 export let scrollOffset = 0
 
 export const initPlayerMovement = () => {
