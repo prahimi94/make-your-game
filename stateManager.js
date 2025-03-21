@@ -1,6 +1,6 @@
 class StateManager {
     constructor() { 
-        this.state = 'start'
+        this.state = 'init'
     }
 
     setState(newState) {
@@ -10,16 +10,15 @@ class StateManager {
 
 export let stateManager
 export const initState = () => {
+    console.log(stateManager)
     stateManager = new StateManager();
+
+    console.log(stateManager)
 }
 
 export const resetGame = () => {
-    stateManager.state = 'start'
+    stateManager.state = 'init'
     init()
-}
-
-export const resumeGame = () => {
-    stateManager.state = 'pause'
 }
 
 export const pauseGame = () => {

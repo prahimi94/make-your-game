@@ -1,3 +1,4 @@
+import { stateManager } from './stateManager.js';
 import { groundTop } from './platform.js';
 import { platformImageHeight, platformImageWidth } from './platform.js';
 
@@ -111,6 +112,11 @@ export const initEnemies = () => {
 }
 
 const animateEnemyMovement = () => {
+    if (stateManager == undefined || stateManager.state !== 'running') {
+        requestAnimationFrame(animateEnemyMovement)
+        return;
+    }
+
     enemies.forEach((enemy, index) => {
         enemy.updatePosition()
         // Remove enemies that move off-screen

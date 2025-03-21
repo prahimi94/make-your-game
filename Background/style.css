@@ -138,3 +138,7 @@ body {
     margin: 10px;
     cursor: pointer;
 } 
+
+.menu-active-button {
+    border-color: green !important;
+}

@@ -1,6 +1,6 @@
 
 import "./Background/scrollBackground.js";
-import { initState } from './stateManager.js';
+import { initState, stateManager } from './stateManager.js';
 
 import { initMenu, initPauseMenu } from "./menu.js";
 
@@ -10,8 +10,8 @@ import { initEnemies } from './enemy.js';
 import { initPlayer } from './player.js';
 
 export const init = () => {
-    initPauseMenu()
-
+    stateManager.state = 'running'
+    
     initScoreBoard()
     initPlatforms()
     initEnemies()
@@ -36,6 +36,7 @@ export const init = () => {
 // init() 
 initState()
 initMenu()
+initPauseMenu()
   
 // function pad(val) {
 //     var valString = val + "";

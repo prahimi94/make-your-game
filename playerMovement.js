@@ -1,4 +1,5 @@
 import { init } from './index.js';
+import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
 
 import { player } from './player.js';
@@ -26,6 +27,10 @@ export const initPlayerMovement = () => {
 }
 
 document.addEventListener("keydown", (event) => {
+    if (stateManager.state !== 'running') {
+        return;
+    }
+
     const pressedKey = event.code
     // console.log("pressedKey");
     // console.log(pressedKey);
@@ -52,6 +57,10 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
+    if (stateManager.state !== 'running') {
+        return;
+    }
+
     const pressedKey = event.code
 
     switch(pressedKey){
@@ -73,6 +82,10 @@ document.addEventListener("keyup", (event) => {
 });
 
 const animatePlayerMovement = () => {
+    if (stateManager == undefined || stateManager.state !== 'running') {
+        requestAnimationFrame(animatePlayerMovement)
+        return;
+    }
     
     if (keys.right.pressed) {
         player.div.style.backgroundImage = `url(image/runnig-mario.gif)`

@@ -1,3 +1,4 @@
+import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
 
 console.log('Score board loaded')
@@ -28,10 +29,15 @@ export const initScoreBoard = () => {
 let lastTime = performance.now();
 
 function updateTimer(currentTime) {
+    if (stateManager == undefined || stateManager.state !== 'running') {
+        requestAnimationFrame(updateTimer)
+        return;
+    }
+
     if (currentTime - lastTime >= 1000) {
         lastTime = currentTime;
         timer--;
-        console.log("timer: ", timer);
+        // console.log("timer: ", timer);
         scoreBoardTimer.innerHTML = timer;
 
         if (timer <= 0) {
