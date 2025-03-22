@@ -112,20 +112,17 @@ export const initEnemies = () => {
 }
 
 const animateEnemyMovement = () => {
-    if (stateManager == undefined || stateManager.state !== 'running') {
-        requestAnimationFrame(animateEnemyMovement)
-        return;
+    if (stateManager !== undefined && stateManager.getState() === 'running') {
+        enemies.forEach((enemy, index) => {
+            enemy.updatePosition()
+            // Remove enemies that move off-screen
+            
+            // if (enemy.position.x < scrollOffset || enemy.position.x > scrollOffset + window.innerWidth) {
+            //     document.body.removeChild(enemy.div)
+            //     enemies.splice(index, 1)
+            // }
+        })
     }
-
-    enemies.forEach((enemy, index) => {
-        enemy.updatePosition()
-        // Remove enemies that move off-screen
-        
-        // if (enemy.position.x < scrollOffset || enemy.position.x > scrollOffset + window.innerWidth) {
-        //     document.body.removeChild(enemy.div)
-        //     enemies.splice(index, 1)
-        // }
-    })
 
     requestAnimationFrame(animateEnemyMovement)
 }

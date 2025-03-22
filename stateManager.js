@@ -6,21 +6,25 @@ class StateManager {
     setState(newState) {
         this.state = newState
     }
+
+    getState() {
+        return this.state
+    }
 }
 
 export let stateManager
 export const initState = () => {
-    console.log(stateManager)
     stateManager = new StateManager();
-
-    console.log(stateManager)
 }
 
 export const resetGame = () => {
-    stateManager.state = 'init'
-    init()
+    stateManager.setState('init')
+}
+
+export const runGame = () => {
+    stateManager.setState('running')
 }
 
 export const pauseGame = () => {
-    stateManager.state = 'pause'
+    stateManager.setState('pause')
 }

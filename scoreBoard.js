@@ -29,24 +29,22 @@ export const initScoreBoard = () => {
 let lastTime = performance.now();
 
 function updateTimer(currentTime) {
-    if (stateManager == undefined || stateManager.state !== 'running') {
-        requestAnimationFrame(updateTimer)
-        return;
-    }
-
-    if (currentTime - lastTime >= 1000) {
-        lastTime = currentTime;
-        timer--;
-        // console.log("timer: ", timer);
-        scoreBoardTimer.innerHTML = timer;
-
-        if (timer <= 0) {
-            alert('You Lose!');
-            // init();
-            resetGame()
-            return; // Stop the loop
+    if (stateManager !== undefined && stateManager.getState() === 'running') {
+        if (currentTime - lastTime >= 1000) {
+            lastTime = currentTime;
+            timer--;
+            // console.log("timer: ", timer);
+            scoreBoardTimer.innerHTML = timer;
+    
+            if (timer <= 0) {
+                alert('You Lose!');
+                // init();
+                resetGame()
+                return; // Stop the loop
+            }
         }
     }
+
     requestAnimationFrame(updateTimer);
 }
 
