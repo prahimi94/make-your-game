@@ -1,6 +1,6 @@
+import { stateManager } from './stateManager.js';
 import { groundTop } from './platform.js';
 import { platformImageHeight, platformImageWidth } from './platform.js';
-import { scrollOffset } from './playerMovement.js';
 
 export let enemies = []
 let enemyIndex = 0
@@ -112,15 +112,17 @@ export const initEnemies = () => {
 }
 
 const animateEnemyMovement = () => {
-    enemies.forEach((enemy, index) => {
-        enemy.updatePosition()
-        // Remove enemies that move off-screen
-        
-        // if (enemy.position.x < scrollOffset || enemy.position.x > scrollOffset + window.innerWidth) {
-        //     document.body.removeChild(enemy.div)
-        //     enemies.splice(index, 1)
-        // }
-    })
+    if (stateManager !== undefined && stateManager.getState() === 'running') {
+        enemies.forEach((enemy, index) => {
+            enemy.updatePosition()
+            // Remove enemies that move off-screen
+            
+            // if (enemy.position.x < scrollOffset || enemy.position.x > scrollOffset + window.innerWidth) {
+            //     document.body.removeChild(enemy.div)
+            //     enemies.splice(index, 1)
+            // }
+        })
+    }
 
     requestAnimationFrame(animateEnemyMovement)
 }

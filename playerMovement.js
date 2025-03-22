@@ -1,4 +1,7 @@
 import { init } from './index.js';
+import { stateManager } from './stateManager.js';
+import { resetGame } from './stateManager.js'
+
 import { player } from './player.js';
 import { platforms } from './platform.js';
 
@@ -25,6 +28,10 @@ export const initPlayerMovement = () => {
 }
 
 document.addEventListener("keydown", (event) => {
+    if (stateManager.getState() !== 'running') {
+        return;
+    }
+
     const pressedKey = event.code
     // console.log("pressedKey");
     // console.log(pressedKey);
@@ -51,6 +58,10 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
+    if (stateManager.getState() !== 'running') {
+        return;
+    }
+
     const pressedKey = event.code
 
     switch(pressedKey){
@@ -72,28 +83,31 @@ document.addEventListener("keyup", (event) => {
 });
 
 const animatePlayerMovement = () => {
+    if (stateManager !== undefined && stateManager.getState() === 'running') {
+        if (keys.right.pressed) {
+            player.div.style.backgroundImage = `url(image/runnig-mario.gif)`
+            player.velocity.x = 5
+            scrollOffset += 5
+        } else if (keys.left.pressed) {
+            player.div.style.backgroundImage = `url(image/reverse-runnig-mario.gif)`
+            player.velocity.x = -5
+            scrollOffset -= 5
+        } else {
+            player.div.style.backgroundImage = `url(image/fixed-mario.png)`
+            player.velocity.x = 0
+        }
     
-    if (keys.right.pressed) {
-        player.div.style.backgroundImage = `url(image/runnig-mario.gif)`
-        player.velocity.x = 5
-        scrollOffset += 5
-    } else if (keys.left.pressed) {
-        player.div.style.backgroundImage = `url(image/reverse-runnig-mario.gif)`
-        player.velocity.x = -5
-        scrollOffset -= 5
-    } else {
-        player.div.style.backgroundImage = `url(image/fixed-mario.png)`
-        player.velocity.x = 0
-    }
+        player.updatePosition()
 
-    player.updatePosition()
+        if (scrollOffset == 5700) {
+            alert('You Win!')
+            // init()
+            resetGame()
+        }
+    }
 
     requestAnimationFrame(animatePlayerMovement)
 
-    if (scrollOffset == 5700) {
-        alert('You Win!')
-        init()
-    }
 }
 
 animatePlayerMovement()
