@@ -1,18 +1,18 @@
+import { showInitialMenu } from './menu.js';
 import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
 
-console.log('Score board loaded')
-export let timer = 400;
+export let timer = 60;
 const scoreBoardLives = document.getElementById('lives');
 const scoreBoardCoins = document.getElementById('coins');
 const scoreBoardScore = document.getElementById('score');
 const scoreBoardTimer = document.getElementById('timer');
 
 export const initScoreBoard = () => {
-    timer = 400
+    timer = 60
     scoreBoardTimer.innerHTML = timer;
 
-    const oldPlatformDivs = document.getElementsByClassName('platform')
+    const oldPlatformDivs = document.getElementsByClassName('score-board')
     while (oldPlatformDivs.length > 0) {
         oldPlatformDivs[0].parentNode.removeChild(oldPlatformDivs[0])
     }
@@ -40,7 +40,8 @@ function updateTimer(currentTime) {
                 alert('You Lose!');
                 // init();
                 resetGame()
-                return; // Stop the loop
+                showInitialMenu()
+                // return; // Stop the loop
             }
         }
     }

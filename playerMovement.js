@@ -1,4 +1,4 @@
-import { init } from './index.js';
+import { showInitialMenu } from './menu.js';
 import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
 
@@ -99,15 +99,16 @@ const animatePlayerMovement = () => {
     
         player.updatePosition()
 
-        if (scrollOffset == 5700) {
-            alert('You Win!')
-            // init()
-            resetGame()
+        if (player.distanceTravelled == 5460) {
+            alert('You Win!');
+
+            resetGame();
+            showInitialMenu();
+            // return;// Stop the loop
         }
     }
 
     requestAnimationFrame(animatePlayerMovement)
-
 }
 
 animatePlayerMovement()

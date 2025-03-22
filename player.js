@@ -1,11 +1,13 @@
 const gravity = 0.5
 import { coins } from './coin.js';
+import { showInitialMenu } from './menu.js';
 import { platforms, groundTop } from './platform.js';
 import { init } from './index.js';
 import { enemies } from './enemy.js';
 import { collidedFromTop, collidedFromBottom, collidedFromLeft, collidedFromRight, collidedWithCoin } from './collisionCheck.js';
 import { scrollBackground } from './Background/scrollBackground.js';
-import { updateLivesCount, updateScoreCount } from './scoreBoard.js';
+import { updateLivesCount, updateScoreCount, updateCoinsCount } from './scoreBoard.js';
+import { resetGame } from './stateManager.js';
 
 export let player
 let leftScrollLimit = 0
@@ -25,28 +27,29 @@ class Player {
         this.remainingLives = 3
         this.coins = 0
         this.distanceTravelled = 20
+        this.score = 0
         this.jumpCount = 0
         this.maxJumps = 3
         this.isJumping = false;
         
-        this.div = document.createElement('div')
-        this.div.setAttribute("id", "mainPlayer")
+        // this.div = document.createElement('div')
+        // this.div.setAttribute("id", "mainPlayer")
+        this.div = document.getElementById(`mainPlayer`)
         // this.div.style.backgroundColor = "red"
         // div.playerDiv.backgroundImage = `url(${mario})`;
         // this.div.style.backgroundImage = `url(image/mario.jpg)`
         // this.div.style.backgroundImage = `url(image/mario-49314.png)`
         // this.div.style.backgroundImage = `url(image/mario.png)`
-        this.div.style.backgroundImage = `url(image/runnig-mario.gif)`
-        this.div.style.backgroundSize = 'cover';
-        this.div.style.position = "absolute"; // Ensure the div is positioned
-        document.body.appendChild(this.div)
+        // this.div.style.backgroundImage = `url(image/runnig-mario.gif)`
+        // this.div.style.backgroundSize = 'cover';
+        // this.div.style.position = "absolute"; // Ensure the div is positioned
+        // document.body.appendChild(this.div)
     }
     
     draw() {
-        this.div.style.left = this.position.x + "px";
-        this.div.style.top = this.position.y + "px";
-        this.div.style.width = this.width + "px";
-        this.div.style.height = this.height + "px";
+        // this.div.style.left = this.position.x + "px";
+        // this.div.style.top = this.position.y + "px";
+        this.div.style.transform = `translate3d(${this.position.x}px, ${this.position.y}px, 0)`;
     }
     
     updatePosition() {
@@ -80,33 +83,45 @@ class Player {
             
         });
         coins.forEach((coin) => {
-            if (collidedWithCoin(this, coin)) {
-                console.log('collided with coin')   
+            if (collidedWithCoin(this, coin) && coin.div.style.display !== 'none') {
+                this.coins++;
+                updateCoinsCount(this.coins);
+                this.score += 100
+                updateScoreCount(this.score)
+                        
                 coin.div.style.display = 'none';
             }
         });
         
-        enemies.forEach((enemy) => {
-            // const enemyTop = enemy.position.y;
-            // const enemyBottom = enemy.position.y + enemy.height;
-            // const enemyLeft = enemy.position.x;
-            // const enemyRight = enemy.position.x + enemy.width;
-
-            // if (collidedFromTop(this, enemy)) {  
-            //     this.position.y = platformTop - this.height;  // Place player on top of platform
-            //     this.velocity.y = 0;  // Stop falling
-            //     onPlatform = true;
-            //     // Check if player hits the bottom of the platform
-            // } else if (collidedFromBottom(this, platform)) { // Reset the jump count
-            //     // Check if player hits the bottom of the platform
-            //     this.position.y = platformBottom; // Prevent passing through
-            //     this.velocity.y = 2; // Give downward force after hitting
-            // } else
-             if (collidedFromLeft(this, enemy) || collidedFromRight(this, enemy)) {
-                console.log('collided with enemy')
-                this.decreseLive();
-            }
-        })
+        if(!this.div.classList.contains("blinking")) {
+            enemies.forEach((enemy) => {
+                if(enemy.div.style.display !== 'none') {
+                    // const enemyTop = enemy.position.y;
+                    // const enemyBottom = enemy.position.y + enemy.height;
+                    // const enemyLeft = enemy.position.x;
+                    // const enemyRight = enemy.position.x + enemy.width;
+        
+                    // if (collidedFromTop(this, enemy)) {  
+                    //     this.position.y = platformTop - this.height;  // Place player on top of platform
+                    //     this.velocity.y = 0;  // Stop falling
+                    //     onPlatform = true;
+                    //     // Check if player hits the bottom of the platform
+                    // } else if (collidedFromBottom(this, platform)) { // Reset the jump count
+                    //     // Check if player hits the bottom of the platform
+                    //     this.position.y = platformBottom; // Prevent passing through
+                    //     this.velocity.y = 2; // Give downward force after hitting
+                    // } else
+                    if (collidedFromLeft(this, enemy) || collidedFromRight(this, enemy)) {
+                        // console.log('collided with enemy')
+                        this.decreseLive();
+                    } else if (collidedFromTop(this, enemy)) {
+                        this.score += 200
+                        updateScoreCount(this.score)
+                        enemy.div.style.display = 'none';
+                    }
+                }  
+            })
+        }
         
         if (!onPlatform) {
             this.velocity.y += gravity;  // Apply gravity only when not on a platform
@@ -118,7 +133,8 @@ class Player {
         const scrollDirection = movementDirection == 'right' ? 'left' : 'right' // Scroll the background in the opposite direction of the player
         if(movementDirection == 'right') {
             this.distanceTravelled += this.velocity.x; // Increase the distance travelled by the player if player is moving right
-            updateScoreCount(this.distanceTravelled)
+            this.score += this.velocity.x / 5
+            updateScoreCount(this.score)
 
 
             if(this.position.x >= window.innerWidth / 2){ // Scroll the background and platforms instead of the player
@@ -144,7 +160,8 @@ class Player {
             }
         } else if(movementDirection == 'left' && this.position.x >= leftScrollLimit){
                 this.distanceTravelled += this.velocity.x; // Decrease the distance travelled by the player if player is trying to move left and is allowed to move left
-                updateScoreCount(this.distanceTravelled)
+                this.score += this.velocity.x / 5
+                updateScoreCount(this.score)
                 
                 this.position.x += this.velocity.x;
         } 
@@ -173,8 +190,12 @@ class Player {
 
         if (this.remainingLives > 0) {
             // Reset player position
+            this.blinkElement();
+            this.distanceTravelled -= 100
+            this.score -= 100 / 5
+            updateScoreCount(this.score)
             this.position = {
-                x: this.position.x + 100,
+                x: this.position.x - 100,
                 y: groundTop - 100
             };
             this.velocity = {
@@ -183,19 +204,30 @@ class Player {
             };
         } else {
             alert('Game Over');
-            init(); // Restart the game
+            resetGame();
+            showInitialMenu();
+            return;
+            // init(); // Restart the game
         }
+    }
+
+    blinkElement() {
+        this.div.classList.add("blinking"); // اضافه کردن انیمیشن
+
+        setTimeout(() => {
+            this.div.classList.remove("blinking"); // حذف بعد از ۳ ثانیه
+        }, 3000);
     }
 }
 
 export const initPlayer = () => {
-    import('./playerMovement.js').then(playerMovementModule => {
-        playerMovementModule.initPlayerMovement();
-    });
-    const oldPlayerDiv = document.getElementById('mainPlayer')
-    if(oldPlayerDiv){
-        document.body.removeChild(oldPlayerDiv)
-    }
+    // import('./playerMovement.js').then(playerMovementModule => {
+    //     playerMovementModule.initPlayerMovement();
+    // });
+    // const oldPlayerDiv = document.getElementById('mainPlayer')
+    // if(oldPlayerDiv){
+    //     document.body.removeChild(oldPlayerDiv)
+    // }
     
     player = new Player()
     player.draw()
