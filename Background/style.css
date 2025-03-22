@@ -88,6 +88,10 @@ body {
     z-index: 1;
 }
 
+.coin {
+    z-index: 1;
+}
+
 #mainPlayer {
     z-index: 2;
 }

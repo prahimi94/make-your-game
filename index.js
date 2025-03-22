@@ -6,6 +6,7 @@ import { initMenu, initPauseMenu } from "./menu.js";
 
 import { initScoreBoard } from './scoreBoard.js';
 import { initPlatforms } from './platform.js';
+import { initCoins } from './coin.js';
 import { initEnemies } from './enemy.js';
 import { initPlayer } from './player.js';
 
@@ -14,6 +15,7 @@ export const init = () => {
     
     initScoreBoard()
     initPlatforms()
+    initCoins()
     initEnemies()
     initPlayer()
     // initPlayerMovement()
