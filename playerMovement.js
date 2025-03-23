@@ -5,6 +5,7 @@ import { resetGame } from './stateManager.js'
 
 import { player } from './player.js';
 import { platforms } from './platform.js';
+import { timer } from './scoreBoard.js';
 
 const keys = {
     right: {
@@ -116,8 +117,9 @@ const animatePlayerMovement = () => {
             resetGame();
             showInitialMenu();
             
+            player.score += timer * 100
             setTimeout(() => {
-                alert('You Win!');
+                alert('You Win!, Your score is: ' + player.score);
             }, 100);
             // return;// Stop the loop
         }

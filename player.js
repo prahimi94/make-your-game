@@ -119,7 +119,7 @@ class Player {
                     if (collidedFromLeft(this, enemy) || collidedFromRight(this, enemy)) {
                         // console.log('collided with enemy')
                         playSound('marioOof');
-                        this.decreseLive();
+                        this.decreseLive('enemy');
                     } else if (collidedFromTop(this, enemy)) {
                         playSound('yeahoo');
                         this.score += 200
@@ -176,7 +176,7 @@ class Player {
         // Check if player falls into a death pit
         if (this.position.y > groundTop) {
             playSound('falling')
-            this.decreseLive();
+            this.decreseLive('falling');
         }
                 
         this.draw();
@@ -190,20 +190,28 @@ class Player {
          }
      }
 
-    decreseLive() {
+    decreseLive(cause) {
         this.remainingLives--;
         updateLivesCount(this.remainingLives);
 
         if (this.remainingLives > 0) {
             playSound('death');
             this.blinkElement();
-            this.distanceTravelled -= 100
-            this.score -= 100 / 5
-            updateScoreCount(this.score)
-            this.position = {
-                x: this.position.x - 100,
-                y: groundTop - 100
-            };
+            if(cause == 'enemy') {
+                this.position = {
+                    x: this.position.x,
+                    y: groundTop - 200
+                };
+            } else {
+                this.distanceTravelled -= 100
+                // this.score -= 100 / 5
+                // updateScoreCount(this.score)
+                this.position = {
+                    x: this.position.x - 100,
+                    y: groundTop - 200
+                };
+            }
+            
             this.velocity = {
                 x: 0,
                 y: 1
