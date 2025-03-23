@@ -24,7 +24,7 @@ class Platform {
     draw() {
         // this.div.style.left = this.position.x + "px";
         // this.div.style.top = this.position.y + "px";
-        this.div.style.transform = `translate3d(${this.position.x}px, ${this.position.y}px, 0)`;
+        this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
 
         this.div.style.width = this.width + "px";
         this.div.style.height = this.height + "px";
@@ -52,7 +52,7 @@ class Platform {
             this.position.x += velocity
         }
         // this.div.style.left = this.position.x + "px"
-        this.div.style.transform = `translate3d(${this.position.x}px, ${this.position.y}px, 0)`;
+        this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
 }
 

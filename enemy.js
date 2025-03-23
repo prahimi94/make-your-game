@@ -36,7 +36,7 @@ class Enemy {
         // this.div.style.left = this.position.x + "px";
         // this.div.style.top = window.innerHeight - 10 + "px";
         // this.div.style.top = this.position.y + "px";
-        this.div.style.transform = `translate3d(${this.position.x}px, ${this.position.y}px, 0)`;
+        this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
 
     updatePosition() {
