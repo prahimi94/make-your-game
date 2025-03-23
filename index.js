@@ -1,6 +1,7 @@
 
 import "./Background/scrollBackground.js";
 import {  stateManager, initState, runGame } from './stateManager.js';
+import { initSounds } from './sound.js';
 
 import { initMenu, initPauseMenu } from "./menu.js";
 
@@ -14,6 +15,7 @@ import { initPlayerMovement } from './playerMovement.js';
 export const init = () => {
     runGame()
     
+    initSounds()
     initScoreBoard()
     initPlatforms()
     initCoins()

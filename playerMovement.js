@@ -1,3 +1,4 @@
+import { playSound } from './sound.js';
 import { showInitialMenu } from './menu.js';
 import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
@@ -100,10 +101,13 @@ const animatePlayerMovement = () => {
         player.updatePosition()
 
         if (player.distanceTravelled == 5460) {
-            alert('You Win!');
-
+            playSound('win');
             resetGame();
             showInitialMenu();
+            
+            setTimeout(() => {
+                alert('You Win!');
+            }, 100);
             // return;// Stop the loop
         }
     }

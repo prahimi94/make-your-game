@@ -1,4 +1,5 @@
 const gravity = 0.5
+import { playSound } from './sound.js';
 import { coins } from './coin.js';
 import { showInitialMenu } from './menu.js';
 import { platforms, groundTop } from './platform.js';
@@ -90,6 +91,7 @@ class Player {
                 updateScoreCount(this.score)
                         
                 coin.div.style.display = 'none';
+                playSound('coin');
             }
         });
         
@@ -113,8 +115,10 @@ class Player {
                     // } else
                     if (collidedFromLeft(this, enemy) || collidedFromRight(this, enemy)) {
                         // console.log('collided with enemy')
+                        playSound('marioOof');
                         this.decreseLive();
                     } else if (collidedFromTop(this, enemy)) {
+                        playSound('yeahoo');
                         this.score += 200
                         updateScoreCount(this.score)
                         enemy.div.style.display = 'none';
@@ -170,6 +174,7 @@ class Player {
         
         // Check if player falls into a death pit
         if (this.position.y > groundTop) {
+            playSound('falling')
             this.decreseLive();
         }
                 
@@ -189,7 +194,7 @@ class Player {
         updateLivesCount(this.remainingLives);
 
         if (this.remainingLives > 0) {
-            // Reset player position
+            playSound('death');
             this.blinkElement();
             this.distanceTravelled -= 100
             this.score -= 100 / 5
@@ -203,9 +208,13 @@ class Player {
                 y: 1
             };
         } else {
-            alert('Game Over');
+            playSound('gameOver');
             resetGame();
             showInitialMenu();
+
+            setTimeout(() => {
+                alert('Game Over!');
+            }, 100);
             return;
             // init(); // Restart the game
         }

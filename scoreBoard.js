@@ -1,3 +1,4 @@
+import { playSound } from './sound.js';
 import { showInitialMenu } from './menu.js';
 import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
@@ -37,10 +38,13 @@ function updateTimer(currentTime) {
             scoreBoardTimer.innerHTML = timer;
     
             if (timer <= 0) {
-                alert('You Lose!');
-                // init();
+                playSound('gameOver');
                 resetGame()
                 showInitialMenu()
+                setTimeout(() => {
+                    alert('Game Over!');
+                }, 100);
+                // init();
                 // return; // Stop the loop
             }
         }
