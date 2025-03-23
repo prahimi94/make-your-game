@@ -50,7 +50,7 @@ class Player {
     draw() {
         // this.div.style.left = this.position.x + "px";
         // this.div.style.top = this.position.y + "px";
-        this.div.style.transform = `translate3d(${this.position.x}px, ${this.position.y}px, 0)`;
+        this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
     
     updatePosition() {
@@ -85,6 +85,7 @@ class Player {
             }
             
         });
+
         coins.forEach((coin) => {
             if (collidedWithCoin(this, coin) && coin.div.style.display !== 'none') {
                 this.coins++;

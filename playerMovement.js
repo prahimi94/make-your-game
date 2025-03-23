@@ -93,20 +93,19 @@ const removeBgClasses = () => {
 }
 
 const animatePlayerMovement = () => {
+    const velocity = 5; // Ensure this velocity is consistent with the platform velocity
+
     if (stateManager !== undefined && stateManager.getState() === 'running') {
+        removeBgClasses();
         if (keys.right.pressed) {
-            removeBgClasses();
             player.div.classList.add('bg-running-mario')
-            player.velocity.x = 5
-            scrollOffset += 5
+            player.velocity.x = velocity
+            scrollOffset += velocity
         } else if (keys.left.pressed) {
-            removeBgClasses();
             player.div.classList.add('bg-reverse-running-mario')
-            player.velocity.x = -5
-            scrollOffset -= 5
+            player.velocity.x = -velocity
+            scrollOffset -= velocity
         } else {
-            removeBgClasses();
-            player.div.classList.add('bg-fixed-mario')
             player.velocity.x = 0
         }
     

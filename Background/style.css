@@ -72,7 +72,7 @@ body {
     z-index: 1;
     width: 100%;
     height: 100vh;
-    background-image: url('./Assets/background.gif');
+    background-image: url('./Assets/background.jpg');
     background-repeat: repeat-x;
     background-size: cover;
     position: absolute;
@@ -82,8 +82,8 @@ body {
 
 .platform {
     z-index: 1;
-    will-change: transform;
-    transform: translateX(0px);
+    /* will-change: transform; */
+    /* transform: translateX(0px); */
     top: 0px;
     left: 0px;
     position: absolute;
@@ -111,8 +111,8 @@ body {
 
 .enemy {
     z-index: 1;
-    will-change: transform;
-    transform: translateX(0px);
+    /* will-change: transform; */
+    /* transform: translateX(0px); */
     background-image: url(../image/carnivorous-plant.png);
     background-size: cover;
     position: absolute;
@@ -124,9 +124,9 @@ body {
 
 .coin {
     z-index: 1;
-    will-change: transform;
-    transform: translateX(0px);
-    background-image: url(../image/BrxG.gif);
+    /* will-change: transform; */
+    /* transform: translateX(0px); */
+    background-image: url(../image/coin.webp);
     background-size: cover;
     background-repeat: round;
     position: absolute;
@@ -137,9 +137,9 @@ body {
 }
 
 #mainPlayer {
-    z-index: 2;
-    will-change: transform;
-    /* background-image: url(../image/fixed-mario.png); */
+    z-index: 1;
+    /* will-change: transform; */
+    background-image: url(../image/fixed-mario.png);
     background-size: cover;
     position: absolute;
     top: 0px;
@@ -153,11 +153,11 @@ body {
 }
 
 .bg-running-mario {
-    background-image: url(../image/running-mario.gif) !important;
+    background-image: url(../image/running-mario.webp) !important;
 }
 
 .bg-reverse-running-mario {
-    background-image: url(../image/reverse-running-mario.gif) !important;
+    background-image: url(../image/reverse-running-mario.webp) !important;
 }
 
 @keyframes blink {
@@ -183,7 +183,7 @@ body {
 }
 
 #menu {
-    z-index: 3;
+    z-index: 2;
     position: fixed; /* Fixes it on top of everything */
     display: flex;
     /* flex-direction: column; */

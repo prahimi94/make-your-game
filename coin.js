@@ -27,7 +27,7 @@ class Coin {
     draw() {
         // this.div.style.left = this.position.x + "px";
         // this.div.style.top = this.position.y + "px";
-        this.div.style.transform = `translate3d(${this.position.x}px, ${this.position.y}px, 0)`;
+        this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
         // this.div.style.backgroundImage = `url(image/BrxG.gif)`; // Update with your coin image
         // this.div.style.backgroundSize = 'contain';
         // this.div.style.backgroundRepeat = 'round';
@@ -38,7 +38,7 @@ class Coin {
         // Coins should move along with the platform's X position
         this.position.x -= velocity;  // Move the coin in sync with the platform's X movement
         // this.div.style.left = this.position.x + "px"
-        this.div.style.transform = `translate3d(${this.position.x}px, ${this.position.y}px, 0)`;
+        this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
 }
  
