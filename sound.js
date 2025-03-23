@@ -28,6 +28,7 @@ export function playSound(sound) {
 }
 
 export function initSounds() {
+    isPlaying = true;
     sounds.background.play();
     playSound('background');
 }
