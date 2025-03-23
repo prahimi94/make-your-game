@@ -83,18 +83,29 @@ document.addEventListener("keyup", (event) => {
     }
 });
 
+const removeBgClasses = () => {
+    player.div.classList.forEach(className => {
+        if (className.startsWith("bg-")) {
+            player.div.classList.remove(className);
+        }
+    });
+}
+
 const animatePlayerMovement = () => {
     if (stateManager !== undefined && stateManager.getState() === 'running') {
         if (keys.right.pressed) {
-            player.div.style.backgroundImage = `url(image/runnig-mario.gif)`
+            removeBgClasses();
+            player.div.classList.add('bg-running-mario')
             player.velocity.x = 5
             scrollOffset += 5
         } else if (keys.left.pressed) {
-            player.div.style.backgroundImage = `url(image/reverse-runnig-mario.gif)`
+            removeBgClasses();
+            player.div.classList.add('bg-reverse-running-mario')
             player.velocity.x = -5
             scrollOffset -= 5
         } else {
-            player.div.style.backgroundImage = `url(image/fixed-mario.png)`
+            removeBgClasses();
+            player.div.classList.add('bg-fixed-mario')
             player.velocity.x = 0
         }
     

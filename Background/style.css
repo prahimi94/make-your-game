@@ -139,13 +139,25 @@ body {
 #mainPlayer {
     z-index: 2;
     will-change: transform;
-    background-image: url(../image/runnig-mario.gif);
+    /* background-image: url(../image/fixed-mario.png); */
     background-size: cover;
     position: absolute;
     top: 0px;
     left: 0px;
     width: 40px;
     height: 60px;
+}
+
+.bg-fixed-mario {
+    background-image: url(../image/fixed-mario.png) !important;
+}
+
+.bg-running-mario {
+    background-image: url(../image/running-mario.gif) !important;
+}
+
+.bg-reverse-running-mario {
+    background-image: url(../image/reverse-running-mario.gif) !important;
 }
 
 @keyframes blink {
