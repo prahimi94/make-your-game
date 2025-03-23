@@ -21,22 +21,22 @@ class Enemy {
         }
 
         this.index = index
-        this.div = document.createElement('div')
-        this.div.setAttribute("id", `enemy${index}`)
-        this.div.setAttribute("class", `enemy`)
+        // this.div = document.createElement('div')
+        // this.div.setAttribute("id", `enemy${index}`)
+        // this.div.setAttribute("class", `enemy`)
+        this.div = document.getElementById(`enemy${index}`)
         // this.div.style.backgroundImage = `url(image/mushroom.svg)`
-        this.div.style.backgroundImage = `url(image/carnivorous-plant.png)`
-        this.div.style.backgroundSize = 'cover'
-        this.div.style.position = "absolute"; // Ensure the div is positioned
-        document.body.appendChild(this.div)
+        // this.div.style.backgroundImage = `url(image/carnivorous-plant.png)`
+        // this.div.style.backgroundSize = 'cover'
+        // this.div.style.position = "absolute"; // Ensure the div is positioned
+        // document.body.appendChild(this.div)
     }
 
     draw() {
-        this.div.style.left = this.position.x + "px";
+        // this.div.style.left = this.position.x + "px";
         // this.div.style.top = window.innerHeight - 10 + "px";
-        this.div.style.top = this.position.y + "px";
-        this.div.style.width = this.width + "px";
-        this.div.style.height = this.height + "px";
+        // this.div.style.top = this.position.y + "px";
+        this.div.style.transform = `translate3d(${this.position.x}px, ${this.position.y}px, 0)`;
     }
 
     updatePosition() {
@@ -67,9 +67,12 @@ class Enemy {
 }
 
 export const initEnemies = () => {
-    const oldEnemyDivs = document.getElementsByClassName('enemy')
-    while (oldEnemyDivs.length > 0) {
-        oldEnemyDivs[0].parentNode.removeChild(oldEnemyDivs[0])
+    const oldEnemyDivs = document.getElementsByClassName('enemy');
+    for (let i = 0; i < oldEnemyDivs.length; i++) {
+        let enemy = oldEnemyDivs[i];
+        if (window.getComputedStyle(enemy).display === "none") {
+            enemy.style.display = "block";
+        }
     }
 
     enemies = []

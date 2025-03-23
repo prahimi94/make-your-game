@@ -19,7 +19,7 @@ export const initMenu = () => {
     })
 }
 
-const showInitialMenu = () => {
+export const showInitialMenu = () => {
     const menu = document.getElementById('menu');
     const initialMenu = document.getElementById('initial-menu');
     const pauseMenu = document.getElementById('pause-menu');
@@ -85,6 +85,7 @@ export const initPauseMenu = () => {
 
                 resetGame()
                 showInitialMenu()
+                return
             }
         }
 
