@@ -55,6 +55,8 @@ class Player {
     
     updatePosition() {
         let onPlatform = false;
+        const movementDirection = this.velocity.x >= 0 ? 'right' : 'left'
+        const scrollDirection = movementDirection == 'right' ? 'left' : 'right' // Scroll the background in the opposite direction of the player
 
         platforms.forEach((platform) => {
             const platformTop = platform.position.y;
@@ -74,10 +76,10 @@ class Player {
                 // Check if player hits the bottom of the platform
                 this.position.y = platformBottom; // Prevent passing through
                 this.velocity.y = 2; // Give downward force after hitting
-            } else if (collidedFromLeft(this, platform)) {
+            } else if (collidedFromLeft(this, platform) && movementDirection == 'right') {
                 // this.position.x = platformLeft - this.width; // Place player to the left of the platform
                 this.velocity.x = 0; // Stop horizontal movement
-             } else if (collidedFromRight(this, platform)) {
+             } else if (collidedFromRight(this, platform) && movementDirection == 'left') {
                 // this.position.x = platformRight; // Place player to the right of the platform
                 this.velocity.x = 0; // Stop horizontal movement
             }
@@ -94,6 +96,7 @@ class Player {
                 playSound('coin');
             }
         });
+
         
         if(!this.div.classList.contains("blinking")) {
             enemies.forEach((enemy) => {
@@ -133,8 +136,6 @@ class Player {
             this.velocity.y = 0;  // Stop falling
         }
         
-        const movementDirection = this.velocity.x >= 0 ? 'right' : 'left'
-        const scrollDirection = movementDirection == 'right' ? 'left' : 'right' // Scroll the background in the opposite direction of the player
         if(movementDirection == 'right') {
             this.distanceTravelled += this.velocity.x; // Increase the distance travelled by the player if player is moving right
             this.score += this.velocity.x / 5
