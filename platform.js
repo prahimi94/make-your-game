@@ -15,34 +15,13 @@ class Platform {
         this.height = height
         this.index = index
         this.div = document.getElementById(`platform${index}`)
-        // this.div.setAttribute("id", `platform${index}`)
-        // this.div.setAttribute("class", `platform`)
-        // this.div.style.position = "absolute"; 
-        // document.body.appendChild(this.div)
     }
     
     draw() {
-        // this.div.style.left = this.position.x + "px";
-        // this.div.style.top = this.position.y + "px";
         this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
 
         this.div.style.width = this.width + "px";
         this.div.style.height = this.height + "px";
-        // if (this.type == 'ground') {
-        //     this.div.style.backgroundImage = `url(image/bricks.png)`;
-        //     this.div.style.backgroundSize = 'contain';
-        // } else if (this.type == 'pipe') {
-        //     this.div.style.backgroundImage = `url(image/mario-pipe.png)`;
-        //     this.div.style.backgroundSize = 'cover';
-        //     this.div.style.backgroundRepeat = 'round';
-        // } else if (this.type == 'castle') {
-        //     this.div.style.backgroundImage = `url(image/castle.png)`;
-        //     this.div.style.backgroundSize = 'cover';
-        //     this.div.style.backgroundRepeat = 'round';
-        // } else {
-        //     this.div.style.backgroundImage = `url(image/bricks.png)`;
-        //     this.div.style.backgroundSize = 'contain';
-        // }
     }
 
     scrollPlatform(velocity, scrollDirection = 'left') {
@@ -51,7 +30,6 @@ class Platform {
         } else { 
             this.position.x += velocity
         }
-        // this.div.style.left = this.position.x + "px"
         this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
 }
@@ -61,12 +39,7 @@ export let platforms = [];
 
 export const initPlatforms = () => {
     platforms = []
-
-    // const oldPlatformDivs = document.getElementsByClassName('platform')
-    // while (oldPlatformDivs.length > 0) {
-    //     oldPlatformDivs[0].parentNode.removeChild(oldPlatformDivs[0])
-    // }
-
+    
     let rightOfLastPlatform = 0
     for (let i = 0; i < 20; i++) {
         platforms.push(new Platform({x: rightOfLastPlatform, y: groundTop, index: i}))

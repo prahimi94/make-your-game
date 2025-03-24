@@ -4,7 +4,6 @@ import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
 
 import { player } from './player.js';
-import { platforms } from './platform.js';
 import { timer } from './scoreBoard.js';
 
 const keys = {
@@ -35,9 +34,6 @@ document.addEventListener("keydown", (event) => {
     }
 
     const pressedKey = event.code
-    // console.log("pressedKey");
-    // console.log(pressedKey);
-    
     switch(pressedKey){
         case 'ArrowUp':
         case 'KeyW':
@@ -48,12 +44,10 @@ document.addEventListener("keydown", (event) => {
         case 'ArrowRight':
         case 'KeyW':
             keys.right.pressed = true
-            // player.velocity.x = 1
             break;
         case 'ArrowLeft':
         case 'KeyA':
             keys.left.pressed = true
-            // player.velocity.x = -1
             break;
 
     }
