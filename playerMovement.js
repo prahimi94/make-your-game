@@ -1,10 +1,10 @@
 import { playSound } from './sound.js';
-import { showInitialMenu } from './menu.js';
+import { showGameOverMenu } from './menu.js';
 import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
 
 import { player } from './player.js';
-import { timer } from './scoreBoard.js';
+import { timer, updateScoreCount } from './scoreBoard.js';
 
 const keys = {
     right: {
@@ -108,11 +108,12 @@ const animatePlayerMovement = () => {
         if (player.distanceTravelled == 5460) {
             playSound('win');
             resetGame();
-            showInitialMenu();
             
             player.score += timer * 100
+            updateScoreCount(player.score)
+
             setTimeout(() => {
-                alert('You Win!, Your score is: ' + player.score);
+                showGameOverMenu('win', player.score);
             }, 100);
             // return;// Stop the loop
         }

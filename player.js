@@ -1,7 +1,7 @@
 const gravity = 0.5
 import { playSound } from './sound.js';
 import { coins } from './coin.js';
-import { showInitialMenu } from './menu.js';
+import { showGameOverMenu } from './menu.js';
 import { platforms, groundTop } from './platform.js';
 import { enemies } from './enemy.js';
 import { collidedFromTop, collidedFromBottom, collidedFromLeft, collidedFromRight, collidedWithCoin } from './collisionCheck.js';
@@ -189,10 +189,9 @@ class Player {
         } else {
             playSound('gameOver');
             resetGame();
-            showInitialMenu();
 
             setTimeout(() => {
-                alert('Game Over!');
+                showGameOverMenu('game-over', player.score);
             }, 100);
             return;
             // init(); // Restart the game

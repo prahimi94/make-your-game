@@ -3,7 +3,7 @@ import "./Background/scrollBackground.js";
 import {  initState, runGame } from './stateManager.js';
 import { initSounds } from './sound.js';
 
-import { initMenu, initPauseMenu } from "./menu.js";
+import { initMenu } from "./menu.js";
 
 import { initScoreBoard } from './scoreBoard.js';
 import { initPlatforms } from './platform.js';
@@ -26,4 +26,3 @@ export const init = () => {
 
 initState()
 initMenu()
-initPauseMenu()
