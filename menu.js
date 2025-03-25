@@ -72,21 +72,31 @@ export const initMenu = () => {
             // Toggle the display of 'menu'
             if (menu.style.display === 'none') {
                 menu.style.display = ''; // Remove 'display: none'
-            } else {
-                menu.style.display = 'none'; // Set 'display: none'
-            }
 
-            // Toggle the display of 'pause-menu'
-            if (pauseMenu.style.display === 'none') {
                 pauseMenu.style.display = ''; // Remove 'display: none'
 
                 if (restartButton.classList.contains(menuActiveButtonClass)) {
                     restartButton.classList.remove(menuActiveButtonClass);
                     continueButton.classList.add(menuActiveButtonClass);
                 }
+
             } else {
+                menu.style.display = 'none'; // Set 'display: none'
+
                 pauseMenu.style.display = 'none'; // Set 'display: none'
             }
+
+            // // Toggle the display of 'pause-menu'
+            // if (pauseMenu.style.display === 'none') {
+            //     pauseMenu.style.display = ''; // Remove 'display: none'
+
+            //     if (restartButton.classList.contains(menuActiveButtonClass)) {
+            //         restartButton.classList.remove(menuActiveButtonClass);
+            //         continueButton.classList.add(menuActiveButtonClass);
+            //     }
+            // } else {
+            //     pauseMenu.style.display = 'none'; // Set 'display: none'
+            // }
         } else if ((event.code == 'ArrowUp' || event.code == 'ArrowDown') && stateManager.getState() === 'pause') {
             if (continueButton.classList.contains(menuActiveButtonClass)) {
                 continueButton.classList.remove(menuActiveButtonClass);

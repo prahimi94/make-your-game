@@ -189,6 +189,7 @@ class Player {
         } else {
             playSound('gameOver');
             resetGame();
+            // showInitialMenu();
 
             setTimeout(() => {
                 showGameOverMenu('game-over', player.score);
