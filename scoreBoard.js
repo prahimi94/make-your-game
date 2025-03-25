@@ -1,7 +1,8 @@
 import { playSound } from './sound.js';
-import { showInitialMenu } from './menu.js';
+import { showGameOverMenu } from './menu.js';
 import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
+import { player } from './player.js';
 
 export let timer = 60;
 const scoreBoardLives = document.getElementById('lives');
@@ -24,7 +25,6 @@ export const initScoreBoard = () => {
 
     // todo: add timer
     requestAnimationFrame(updateTimer);
-
 }
 
 let lastTime = performance.now();
@@ -34,15 +34,14 @@ function updateTimer(currentTime) {
         if (currentTime - lastTime >= 1000) {
             lastTime = currentTime;
             timer--;
-            // console.log("timer: ", timer);
             scoreBoardTimer.innerHTML = timer;
     
             if (timer <= 0) {
                 playSound('gameOver');
                 resetGame()
-                showInitialMenu()
+
                 setTimeout(() => {
-                    alert('Game Over!');
+                    showGameOverMenu('game-over', player.score);
                 }, 100);
                 // init();
                 // return; // Stop the loop

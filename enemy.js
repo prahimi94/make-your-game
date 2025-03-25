@@ -1,9 +1,8 @@
 import { stateManager } from './stateManager.js';
 import { groundTop } from './platform.js';
-import { platformImageHeight, platformImageWidth } from './platform.js';
+import { platformImageHeight } from './platform.js';
 
 export let enemies = []
-let enemyIndex = 0
 
 class Enemy {
     constructor({x, endX, index, velocityX = 1, movementDirection = 'right'}){
@@ -21,21 +20,10 @@ class Enemy {
         }
 
         this.index = index
-        // this.div = document.createElement('div')
-        // this.div.setAttribute("id", `enemy${index}`)
-        // this.div.setAttribute("class", `enemy`)
         this.div = document.getElementById(`enemy${index}`)
-        // this.div.style.backgroundImage = `url(image/mushroom.svg)`
-        // this.div.style.backgroundImage = `url(image/carnivorous-plant.png)`
-        // this.div.style.backgroundSize = 'cover'
-        // this.div.style.position = "absolute"; // Ensure the div is positioned
-        // document.body.appendChild(this.div)
     }
 
     draw() {
-        // this.div.style.left = this.position.x + "px";
-        // this.div.style.top = window.innerHeight - 10 + "px";
-        // this.div.style.top = this.position.y + "px";
         this.div.style.transform = `translate(${this.position.x}px, ${this.position.y}px)`;
     }
 
@@ -76,25 +64,8 @@ export const initEnemies = () => {
     }
 
     enemies = []
-
-    // let rightOfLastEnemy = 0
-    // for (let enemyIndex = 0; enemyIndex < 5; enemyIndex++) {
-    //     const x = scrollOffset + i * enemySpacing + randomOffset;
-    //     const endX = x + 200;
-    //     const enemy = new Enemy(x, endX, enemyIndex++);
-
-    //     // Ensure enemies do not move in parallel
-    //     if (enemyIndex % 2 == 0) { 
-    //         enemy.velocity.x = 2;
-    //     }
-        
-    //     enemy.draw();
-    //     enemies.push(enemy);
-    // }
-
     
     enemies.push(
-        // دشمن‌های متحرک بین سکوها و زمین
         new Enemy({x: 200, endX: 400, index: 0}),
         new Enemy({x: 750, endX: 950, index: 1}),
         new Enemy({x: 1300, endX: 1500, index: 2}),
@@ -118,12 +89,6 @@ const animateEnemyMovement = () => {
     if (stateManager !== undefined && stateManager.getState() === 'running') {
         enemies.forEach((enemy, index) => {
             enemy.updatePosition()
-            // Remove enemies that move off-screen
-            
-            // if (enemy.position.x < scrollOffset || enemy.position.x > scrollOffset + window.innerWidth) {
-            //     document.body.removeChild(enemy.div)
-            //     enemies.splice(index, 1)
-            // }
         })
     }
 

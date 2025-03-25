@@ -2,14 +2,9 @@ export const collidedFromTop = (player, obstacle) => {
     const playerBottom = player.position.y + player.height;
     const playerRight = player.position.x + player.width;
     const playerLeft = player.position.x;
-    const playerTop = player.position.y;
-
+    
     const playerBottomNextFrame = playerBottom + player.velocity.y;
-    const playerRightNextFrame = playerRight + player.velocity.x;
-    const playerLeftNextFrame = playerLeft + player.velocity.x;
-    const playerTopNextFrame = playerTop + player.velocity.y; 
-
-    const obstacleBottom = obstacle.position.y + obstacle.height;
+    
     const obstacleRight = obstacle.position.x + obstacle.width;
     const obstacleLeft = obstacle.position.x;
     const obstacleTop = obstacle.position.y;
@@ -23,17 +18,10 @@ export const collidedFromTop = (player, obstacle) => {
 }
 
 export const collidedFromBottom = (player, obstacle) => {
-    const playerBottom = player.position.y + player.height;
     const playerRight = player.position.x + player.width;
     const playerLeft = player.position.x;
     const playerTop = player.position.y;
-
-    const playerBottomNextFrame = playerBottom + player.velocity.y;
-    const playerRightNextFrame = playerRight + player.velocity.x;
-    const playerLeftNextFrame = playerLeft + player.velocity.x;
-    const playerTopNextFrame = playerTop + player.velocity.y; 
-
-    const obstacleBottom = obstacle.position.y + obstacle.height;
+    
     const obstacleRight = obstacle.position.x + obstacle.width;
     const obstacleLeft = obstacle.position.x;
     const obstacleTop = obstacle.position.y;
@@ -53,10 +41,7 @@ export const collidedFromLeft = (player, obstacle) => {
     const playerLeft = player.position.x;
     const playerTop = player.position.y;
 
-    const playerBottomNextFrame = playerBottom + player.velocity.y;
-    const playerRightNextFrame = playerRight + player.velocity.x;
     const playerLeftNextFrame = playerLeft + player.velocity.x;
-    const playerTopNextFrame = playerTop + player.velocity.y; 
 
     const obstacleBottom = obstacle.position.y + obstacle.height;
     const obstacleRight = obstacle.position.x + obstacle.width;
@@ -80,10 +65,7 @@ export const collidedFromRight = (player, obstacle) => {
     const playerLeft = player.position.x;
     const playerTop = player.position.y;
 
-    const playerBottomNextFrame = playerBottom + player.velocity.y;
     const playerRightNextFrame = playerRight + player.velocity.x;
-    const playerLeftNextFrame = playerLeft + player.velocity.x;
-    const playerTopNextFrame = playerTop + player.velocity.y; 
 
     const obstacleBottom = obstacle.position.y + obstacle.height;
     const obstacleRight = obstacle.position.x + obstacle.width;
