@@ -1,5 +1,5 @@
 import { playSound } from './sound.js';
-import { showGameOverMenu } from './menu.js';
+import { showInitialMenu, showGameOverMenu } from './menu.js';
 import { stateManager } from './stateManager.js';
 import { resetGame } from './stateManager.js'
 import { player } from './player.js';
@@ -39,6 +39,7 @@ function updateTimer(currentTime) {
             if (timer <= 0) {
                 playSound('gameOver');
                 resetGame()
+                // showInitialMenu()
 
                 setTimeout(() => {
                     showGameOverMenu('game-over', player.score);
